@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { getCalendarEvents } from '../services'
 import type {
   CalendarEvent,
@@ -15,7 +15,7 @@ export function useCalendarEvents(
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  const fetchEvents = async () => {
+  const fetchEvents = useCallback(async () => {
     if (!voice) {
       setCalendarEvents(null)
       setLoading(false)
@@ -35,11 +35,11 @@ export function useCalendarEvents(
     } finally {
       setLoading(false)
     }
-  }
+  }, [voice])
 
   useEffect(() => {
     void fetchEvents()
-  }, [voice])
+  }, [fetchEvents])
 
   return {
     calendarEvents,
