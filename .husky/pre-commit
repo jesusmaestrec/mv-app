@@ -1,0 +1,13 @@
+#!/bin/sh
+set -e
+
+echo "🔍 Running TypeScript check..."
+make check
+
+echo "🔍 Running ESLint..."
+make lint
+
+echo "✨ Formatting with Prettier..."
+make format
+
+echo "✅ Pre-commit checks passed!"

@@ -57,9 +57,9 @@ format:
 	@echo "$(GREEN)Formatting code...$(NC)"
 	$(PNPM) format
 
-check: lint
-	@echo "$(GREEN)Running TypeScript type check...$(NC)"
-	npx tsc --noEmit
+check:
+	@echo "$(GREEN)Running checks (TypeScript + ESLint)...$(NC)"
+	$(PNPM) run check
 
 clean:
 	@echo "$(GREEN)Cleaning build artifacts...$(NC)"
