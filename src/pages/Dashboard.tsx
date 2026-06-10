@@ -1,3 +1,4 @@
+import { EventItemList } from '../components'
 import { voiceLabels } from '../constants/voiceLabels'
 import { useProfile } from '../hooks'
 
@@ -16,10 +17,16 @@ export const Dashboard = () => {
               {profile ? `Hola, ${profile.name}` : 'Bienvenido a MV App'}
             </h1>
           </div>
-          <div className="rounded-3xl bg-slate-100 px-4 py-3 text-sm text-slate-600">
-            {profile && profile.role && profile.voice
-              ? `${profile.role.toUpperCase()} - ${voiceLabels[profile.voice]}`
-              : 'Perfil no disponible'}
+          <div className="flex items-center gap-3">
+            {profile && profile.voice ? (
+              <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm font-semibold text-slate-900 border border-slate-200 shadow-sm">
+                {profile.role.toUpperCase()} - {voiceLabels[profile.voice]}
+              </span>
+            ) : (
+              <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
+                Perfil no disponible
+              </span>
+            )}
           </div>
         </div>
         <p className="text-sm text-slate-600 sm:text-base">
@@ -27,28 +34,7 @@ export const Dashboard = () => {
         </p>
       </section>
 
-      <section className="space-y-4">
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-          <p className="text-sm text-slate-500">Reunión de equipo</p>
-          <p className="mt-2 text-xl font-semibold text-slate-900">
-            Lunes, 10:00
-          </p>
-        </article>
-
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-          <p className="text-sm text-slate-500">Lanzamiento de producto</p>
-          <p className="mt-2 text-xl font-semibold text-slate-900">
-            Miércoles, 16:00
-          </p>
-        </article>
-
-        <article className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-5">
-          <p className="text-sm text-slate-500">Revisión mensual</p>
-          <p className="mt-2 text-xl font-semibold text-slate-900">
-            Viernes, 14:00
-          </p>
-        </article>
-      </section>
+      <EventItemList />
     </div>
   )
 }
