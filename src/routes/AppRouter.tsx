@@ -2,6 +2,7 @@ import { useEffect, type ReactNode } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Dashboard, Login } from '../pages'
 import { useAuth } from '../hooks'
+import { App } from '../components'
 import { useAuthStore, useProfileStore } from '../store'
 import { getCurrentUser, onAuthStateChange } from '../services'
 
@@ -73,14 +74,16 @@ export const AppRouter = () => {
             </PublicRoute>
           }
         />
-        <Route
-          path="/dashboard"
-          element={
-            <PrivateRoute>
-              <Dashboard />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/" element={<App />}>
+          <Route
+            path="dashboard"
+            element={
+              <PrivateRoute>
+                <Dashboard />
+              </PrivateRoute>
+            }
+          />
+        </Route>
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
