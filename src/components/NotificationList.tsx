@@ -1,7 +1,7 @@
-import type { ReactNode } from 'react';
-import { AlertTriangle, CheckCircle2, Info, X } from 'lucide-react';
-import { useNotificationStore } from '../store/notificationStore';
-import type { NotificationType } from '../interfaces';
+import type { ReactNode } from 'react'
+import { AlertTriangle, CheckCircle2, Info, X } from 'lucide-react'
+import { useNotificationStore } from '../store/notificationStore'
+import type { NotificationType } from '../interfaces'
 
 const notificationConfig: Record<
   NotificationType,
@@ -10,25 +10,25 @@ const notificationConfig: Record<
   success: {
     accent: 'text-emerald-700',
     bg: 'bg-emerald-50',
-    icon: <CheckCircle2 className="h-4 w-4" />,
+    icon: <CheckCircle2 className="h-4 w-4" />
   },
   error: {
     accent: 'text-rose-700',
     bg: 'bg-rose-50',
-    icon: <AlertTriangle className="h-4 w-4" />,
+    icon: <AlertTriangle className="h-4 w-4" />
   },
   info: {
     accent: 'text-sky-700',
     bg: 'bg-sky-50',
-    icon: <Info className="h-4 w-4" />,
-  },
-};
+    icon: <Info className="h-4 w-4" />
+  }
+}
 
 export function NotificationList() {
-  const notifications = useNotificationStore((state) => state.notifications);
+  const notifications = useNotificationStore((state) => state.notifications)
   const dismissNotification = useNotificationStore(
-    (state) => state.dismissNotification,
-  );
+    (state) => state.dismissNotification
+  )
 
   return (
     <div className="fixed right-4 top-4 z-50 flex w-full max-w-sm flex-col gap-3 px-2 sm:px-0">
@@ -67,5 +67,5 @@ export function NotificationList() {
         </div>
       ))}
     </div>
-  );
+  )
 }

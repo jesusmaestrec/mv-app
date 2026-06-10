@@ -1,32 +1,31 @@
-import { useState } from 'react';
-import { useAuth, useNotification } from '../hooks';
-import { useNavigate } from 'react-router-dom';
+import { useState } from 'react'
+import { useAuth, useNotification } from '../hooks'
+import { useNavigate } from 'react-router-dom'
 
 export const Login = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
 
-  const { login } = useAuth();
-  const { showNotification } = useNotification();
-  const navigate = useNavigate();
+  const { login } = useAuth()
+  const { showNotification } = useNotification()
+  const navigate = useNavigate()
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const handleSubmit = async (e: React.SubmitEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
 
     try {
-      await login(email, password);
-      showNotification('success', 'Inicio de sesión correcto. Redirigiendo...');
-      navigate('/dashboard');
+      await login(email, password)
+      navigate('/dashboard')
     } catch (error) {
       const message =
-        error instanceof Error ? error.message : 'Error al iniciar sesión';
-      showNotification('error', message);
+        error instanceof Error ? error.message : 'Error al iniciar sesión'
+      showNotification('error', message)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-500 to-purple-600  flex items-center justify-center p-4">
@@ -85,5 +84,5 @@ export const Login = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}

@@ -1,1 +1,2 @@
-export { signIn, signOut, getCurrentUser, onAuthStateChange } from './auth';
+export { signIn, signOut, getCurrentUser, onAuthStateChange } from './auth'
+export { getProfile } from './profile'
