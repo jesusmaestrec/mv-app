@@ -20,6 +20,7 @@ help:
 	@echo "  $(BLUE)make build$(NC)        - Build project for production"
 	@echo "  $(BLUE)make preview$(NC)      - Preview production build"
 	@echo "  $(BLUE)make lint$(NC)         - Run ESLint"
+	@echo "  $(BLUE)make lint-fix$(NC)     - Fix ESLint errors automatically"
 	@echo "  $(BLUE)make format$(NC)       - Format code with Prettier"
 	@echo "  $(BLUE)make clean$(NC)        - Clean build artifacts"
 	@echo "  $(BLUE)make check$(NC)        - Run lint and type checks"
@@ -47,6 +48,10 @@ preview: check-node
 lint:
 	@echo "$(GREEN)Running ESLint...$(NC)"
 	$(PNPM) lint
+
+lint-fix:
+	@echo "$(GREEN)Fixing ESLint errors...$(NC)"
+	$(PNPM) eslint . --fix
 
 format:
 	@echo "$(GREEN)Formatting code...$(NC)"
