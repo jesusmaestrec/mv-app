@@ -1,5 +1,5 @@
 import { EventItemList } from '../components'
-import { voiceLabels } from '../constants/voiceLabels'
+import { voiceLabels } from '../constants'
 import { useProfile } from '../hooks'
 
 export const Dashboard = () => {

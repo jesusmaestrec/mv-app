@@ -19,9 +19,14 @@ export interface CalendarEvent {
   voices: InstrumentVoice[] | null
 }
 
-export interface UseCalendarEventsReturn {
+export interface UseCalendarEventListReturn {
   calendarEvents: CalendarEvent[] | null
   loading: boolean
   error: string | null
-  refetch: () => void
+}
+
+export interface UseCalendarEventReturn {
+  calendarEvent: CalendarEvent | null
+  loading: boolean
+  error: string | null
 }

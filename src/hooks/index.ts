@@ -1,4 +1,5 @@
 export { useAuth } from './useAuth'
 export { useNotification } from './useNotification'
 export { useProfile } from './useProfile'
-export { useCalendarEvents } from './useCalendarEvents'
+export { useCalendarEventList } from './useCalendarEventList'
+export { useCalendarEvent } from './useCalendarEvent'

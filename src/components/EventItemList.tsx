@@ -1,7 +1,10 @@
-import { useCalendarEvents, useProfile } from '../hooks'
+import { Link } from 'react-router-dom'
 import { MapPin } from 'lucide-react'
+import { useCalendarEventList, useProfile } from '../hooks'
 import type { CalendarEvent } from '../interfaces'
-import { calendarEventLabel } from '../constants/calendarEventLabel'
+import { calendarEventLabel } from '../constants'
+import { Loading } from './Loading'
+import { formatDate } from '../helpers'
 
 export const EventItem = ({
   calendarEvent
@@ -20,17 +23,13 @@ export const EventItem = ({
     other: 'bg-slate-100 text-slate-800'
   }
 
-  const formattedDate = new Date(starts_at).toLocaleString(undefined, {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-    hour: '2-digit',
-    minute: '2-digit'
-  })
+  const formattedDate = formatDate(starts_at)
 
   return (
-    <article className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md">
+    <Link
+      to={`/events/${calendarEvent.id}`}
+      className="block rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-shadow hover:shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-500"
+    >
       <div className="flex items-start justify-between">
         <div className="flex items-center gap-3">
           <span
@@ -56,19 +55,23 @@ export const EventItem = ({
       <p className="mt-4 text-sm font-semibold text-slate-900">
         {formattedDate}
       </p>
-    </article>
+    </Link>
   )
 }
 
 export const EventItemList = () => {
   const { profile } = useProfile()
-  const { calendarEvents } = useCalendarEvents(profile?.voice ?? null)
+  const { calendarEvents, loading } = useCalendarEventList(profile?.voice)
 
   return (
     <section className="space-y-4">
-      {calendarEvents?.map((calendarEvent) => (
-        <EventItem key={calendarEvent.id} calendarEvent={calendarEvent} />
-      ))}
+      {loading ? (
+        <Loading />
+      ) : (
+        calendarEvents?.map((calendarEvent) => (
+          <EventItem key={calendarEvent.id} calendarEvent={calendarEvent} />
+        ))
+      )}
     </section>
   )
 }
