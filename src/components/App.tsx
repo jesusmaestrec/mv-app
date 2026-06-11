@@ -38,7 +38,7 @@ export const App = () => {
             <div className="absolute right-0 mt-2 w-48 rounded-lg border border-slate-200 bg-white shadow-lg">
               <div className="p-3 border-b border-slate-200">
                 <p className="text-sm font-semibold text-slate-900">
-                  {profile?.name} {profile?.last_name}
+                  {profile?.name} {profile?.lastName}
                 </p>
                 <p className="text-xs text-slate-500">{user?.email}</p>
               </div>

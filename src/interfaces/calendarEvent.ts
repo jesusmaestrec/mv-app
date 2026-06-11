@@ -11,11 +11,8 @@ export interface CalendarEvent {
   title: string
   description: string | null
   location: string | null
-  event_type: CalendarEventType
-  starts_at: string
-  ends_at: string | null
-  created_by: string | null
-  created_at: string | null
+  eventType: CalendarEventType
+  startsAt: string
   voices: InstrumentVoice[] | null
 }
 

@@ -21,7 +21,7 @@ export interface Profile {
   id: string
   role: UserRole
   name: string
-  last_name: string
+  lastName: string
   voice: InstrumentVoice | null
 }
 

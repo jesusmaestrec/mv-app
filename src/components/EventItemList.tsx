@@ -11,9 +11,9 @@ export const EventItem = ({
 }: {
   calendarEvent: CalendarEvent
 }) => {
-  const { title, description, location, event_type, starts_at } = calendarEvent
+  const { title, description, location, eventType, startsAt } = calendarEvent
 
-  const typeKey = event_type ?? 'other'
+  const typeKey = eventType ?? 'other'
   const typeLabel = calendarEventLabel[typeKey]
 
   const typeClasses: Record<string, string> = {
@@ -23,7 +23,7 @@ export const EventItem = ({
     other: 'bg-slate-100 text-slate-800'
   }
 
-  const formattedDate = formatDate(starts_at)
+  const formattedDate = formatDate(startsAt)
 
   return (
     <Link

@@ -5,7 +5,7 @@ export async function getCalendarEventList(
   voice: InstrumentVoice
 ): Promise<CalendarEvent[] | null> {
   const { data, error } = await supabase
-    .from('calendar_events')
+    .from('calendar_events_view')
     .select<'*', CalendarEvent>('*')
     .contains('voices', [voice])
 
@@ -18,7 +18,7 @@ export async function getCalendarEvent(
   id: string
 ): Promise<CalendarEvent | null> {
   const { data, error } = await supabase
-    .from('calendar_events')
+    .from('calendar_events_view')
     .select('*')
     .eq('id', id)
     .single<CalendarEvent>()

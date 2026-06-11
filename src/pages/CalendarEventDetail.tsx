@@ -15,9 +15,9 @@ export const CalendarEventDetail = () => {
     return <div className="p-6 text-slate-500">Evento no encontrado</div>
   }
 
-  const { title, description, location, event_type, starts_at } = calendarEvent
+  const { title, description, location, eventType, startsAt } = calendarEvent
 
-  const typeKey = event_type ?? 'other'
+  const typeKey = eventType ?? 'other'
   const typeLabel = calendarEventLabel[typeKey]
 
   const typeClasses: Record<string, string> = {
@@ -27,7 +27,7 @@ export const CalendarEventDetail = () => {
     other: 'bg-slate-50 text-slate-700 border-slate-200'
   }
 
-  const formattedDate = formatDate(starts_at)
+  const formattedDate = formatDate(startsAt)
 
   return (
     <div className="max-w-3xl mx-auto p-6 space-y-8">
