@@ -1,6 +1,6 @@
 import { useEffect, type ReactNode } from 'react'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { CalendarEventDetail, Dashboard, Login } from '@/pages'
+import { CalendarEventDetail, Dashboard, Login, ProfilePage } from '@/pages'
 import { useAuth } from '@/hooks'
 import { useAuthStore, useProfileStore } from '@/store'
 import { getCurrentUser, onAuthStateChange } from '@/services'
@@ -90,6 +90,16 @@ export const AppRouter = () => {
             element={
               <PrivateRoute>
                 <CalendarEventDetail />
+              </PrivateRoute>
+            }
+          />
+        </Route>
+        <Route path="/" element={<App />}>
+          <Route
+            path="profile"
+            element={
+              <PrivateRoute>
+                <ProfilePage />
               </PrivateRoute>
             }
           />

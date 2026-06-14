@@ -1,6 +1,7 @@
 import { useAuth } from '@/hooks'
 import { motion, AnimatePresence } from 'framer-motion'
 import { User, X, LogOut } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 
 type Props = {
   isOpen: boolean
@@ -9,6 +10,7 @@ type Props = {
 
 export const AppMenu = ({ isOpen, onClose }: Props) => {
   const { logout } = useAuth()
+  const navigate = useNavigate()
 
   return (
     <AnimatePresence>
@@ -55,6 +57,7 @@ export const AppMenu = ({ isOpen, onClose }: Props) => {
                 {/* PROFILE */}
                 <button
                   onClick={() => {
+                    navigate('/profile')
                     onClose()
                   }}
                   className="
