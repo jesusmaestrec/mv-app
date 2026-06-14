@@ -25,7 +25,7 @@ export const AttendanceProgress = () => {
         <span>
           {responded}/{eventAttendance.total} respuestas
         </span>
-        <span>{percentage}%</span>
+        <span>{percentage}% asistencia</span>
       </div>
     </div>
   )
