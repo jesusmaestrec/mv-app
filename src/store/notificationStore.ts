@@ -5,7 +5,7 @@ const timeoutIds: number[] = []
 
 export const useNotificationStore = create<NotificationState>((set, get) => ({
   notifications: [],
-  showNotification: (type, message, duration = 1000) => {
+  showNotification: (type, message, duration = 2000) => {
     const id =
       typeof crypto !== 'undefined' && typeof crypto.randomUUID === 'function'
         ? crypto.randomUUID()
