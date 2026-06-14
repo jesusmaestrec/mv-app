@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
-import { useAuth, useProfile } from '../hooks'
-import { Loading } from './Loading'
+import { useAuth, useProfile } from './hooks'
+import { AppLogo, Loading } from './components'
 import { LogOut } from 'lucide-react'
 
 export const App = () => {
@@ -22,9 +22,7 @@ export const App = () => {
   ) : (
     <div className="h-screen bg-slate-50 text-slate-900 flex flex-col">
       <header className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-200 bg-white px-4 py-3 sm:px-6">
-        <div className="text-sm font-semibold uppercase tracking-[0.24em] text-slate-900">
-          MV App
-        </div>
+        <AppLogo />
         <div className="relative">
           <button
             onClick={() => setMenuOpen(!menuOpen)}

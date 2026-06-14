@@ -5,6 +5,7 @@ import type { CalendarEvent } from '../interfaces'
 import { calendarEventLabel } from '../constants'
 import { Loading } from './Loading'
 import { formatDate } from '../helpers'
+import { EmptyView } from './EmptyView'
 
 export const EventItem = ({
   calendarEvent
@@ -63,14 +64,18 @@ export const EventItemList = () => {
   const { profile } = useProfile()
   const { calendarEvents, loading } = useCalendarEventList(profile?.voice)
 
+  const hasEvents = (calendarEvents?.length ?? 0) > 0
+
   return (
     <section className="space-y-4">
       {loading ? (
         <Loading />
-      ) : (
+      ) : hasEvents ? (
         calendarEvents?.map((calendarEvent) => (
           <EventItem key={calendarEvent.id} calendarEvent={calendarEvent} />
         ))
+      ) : (
+        <EmptyView />
       )}
     </section>
   )

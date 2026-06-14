@@ -30,9 +30,15 @@ export const Dashboard = () => {
           </div>
         </div>
         <p className="text-sm text-slate-600 sm:text-base">
-          Aquí tienes los próximos eventos programados para esta semana.
+          Aplicación web para gestión interna de la BCT Maestro Valero.
         </p>
       </section>
+
+      <div className="pt-2">
+        <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+          Eventos
+        </h2>
+      </div>
 
       <EventItemList />
     </div>
