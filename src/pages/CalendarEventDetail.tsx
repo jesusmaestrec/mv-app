@@ -1,12 +1,6 @@
-import { useParams, Link } from 'react-router-dom'
-import {
-  MapPin,
-  ArrowLeft,
-  Calendar,
-  FileText,
-  CheckCircle2,
-  XCircle
-} from 'lucide-react'
+import { useParams } from 'react-router-dom'
+import { MapPin, Calendar, FileText, CheckCircle2, XCircle } from 'lucide-react'
+
 import {
   useUserAttendance,
   useAuth,
@@ -15,14 +9,14 @@ import {
   useUpdateUserAttendance,
   useEventAttendance
 } from '../hooks'
-import { Loading } from '../components'
+
+import { BackButton, Loading } from '../components'
 import { calendarEventLabel } from '../constants'
 import { formatDate } from '../helpers'
 import { useEffect } from 'react'
 
 export const CalendarEventDetail = () => {
   const { id } = useParams()
-
   const { user } = useAuth()
 
   const { calendarEvent, loading } = useCalendarEvent(id)
@@ -37,16 +31,11 @@ export const CalendarEventDetail = () => {
   )
 
   const { create, data: newAttendance } = useCreateUserAttendance()
-
   const { update, data: updatedAttendance } = useUpdateUserAttendance()
 
   useEffect(() => {
-    if (newAttendance) {
-      setUserAttendance(newAttendance)
-    }
-    if (updatedAttendance) {
-      setUserAttendance(updatedAttendance)
-    }
+    if (newAttendance) setUserAttendance(newAttendance)
+    if (updatedAttendance) setUserAttendance(updatedAttendance)
     void getEventAttendance(calendarEvent?.id)
   }, [
     newAttendance,
@@ -56,10 +45,16 @@ export const CalendarEventDetail = () => {
     getEventAttendance
   ])
 
-  if (loading) return <Loading />
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-white">
+        <Loading />
+      </div>
+    )
+  }
 
   if (!calendarEvent) {
-    return <div className="p-6 text-slate-500">Evento no encontrado</div>
+    return <div className="p-6 text-sm text-gray-400">Evento no encontrado</div>
   }
 
   const { title, description, location, eventType, startsAt } = calendarEvent
@@ -68,201 +63,192 @@ export const CalendarEventDetail = () => {
   const typeLabel = calendarEventLabel[typeKey]
 
   const typeClasses: Record<string, string> = {
-    rehearsal: 'bg-emerald-50 text-emerald-700 border-emerald-200',
-    performance: 'bg-indigo-50 text-indigo-700 border-indigo-200',
-    meeting: 'bg-amber-50 text-amber-700 border-amber-200',
-    other: 'bg-slate-50 text-slate-700 border-slate-200'
+    rehearsal: 'bg-emerald-50 text-emerald-700 border-emerald-100',
+    performance: 'bg-indigo-50 text-indigo-700 border-indigo-100',
+    meeting: 'bg-amber-50 text-amber-700 border-amber-100',
+    other: 'bg-gray-50 text-gray-600 border-gray-100'
   }
 
   const formattedDate = formatDate(startsAt)
 
-  const status = userAttendance
-    ? userAttendance.confirmed
-      ? 'confirmed'
-      : 'rejected'
-    : 'pending'
+  const isConfirmed = userAttendance?.confirmed === true
+  const isRejected = userAttendance?.confirmed === false
+
+  const confirmed = eventAttendance.confirmed
+  const rejected = eventAttendance.rejected
+  const total = eventAttendance.total
+  const responded = confirmed + rejected
 
   const attendancePercentage =
-    eventAttendance.total > 0
-      ? Math.round((eventAttendance.confirmed / eventAttendance.total) * 100)
-      : 0
+    total > 0 ? Math.round((confirmed / total) * 100) : 0
 
   return (
-    <div className="max-w-3xl mx-auto p-6 space-y-8">
-      {/* BACK */}
-      <Link
-        to="/events"
-        className="inline-flex items-center gap-2 text-sm text-slate-500 hover:text-slate-900"
-      >
-        <ArrowLeft className="h-4 w-4" />
-        Volver
-      </Link>
+    <div className="min-h-screen bg-white">
+      <div className="px-4 py-6 space-y-6">
+        {/* BACK */}
+        <BackButton />
 
-      {/* HEADER */}
-      <div className="space-y-3">
-        <span
-          className={`inline-flex px-3 py-1 rounded-full border text-xs font-medium ${typeClasses[typeKey]}`}
-        >
-          {typeLabel}
-        </span>
+        {/* HEADER */}
+        <div className="space-y-3">
+          <span
+            className={`inline-flex items-center rounded-full border px-2.5 py-1 text-[11px] font-medium ${typeClasses[typeKey]}`}
+          >
+            {typeLabel}
+          </span>
 
-        <h1 className="text-3xl font-bold text-slate-900 leading-tight">
-          {title}
-        </h1>
-      </div>
+          <h1 className="text-2xl font-semibold tracking-tight text-gray-900 leading-snug">
+            {title}
+          </h1>
 
-      {/* META */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3 text-sm text-slate-700">
-        <div className="flex items-center gap-2">
-          <Calendar className="h-4 w-4 text-slate-400" />
-          <span>{formattedDate}</span>
+          <div className="space-y-1 text-sm text-gray-500">
+            <div className="flex items-center gap-2">
+              <Calendar className="h-4 w-4" />
+              {formattedDate}
+            </div>
+
+            {location && (
+              <div className="flex items-center gap-2">
+                <MapPin className="h-4 w-4" />
+                {location}
+              </div>
+            )}
+          </div>
         </div>
 
-        {location && (
-          <div className="flex items-center gap-2">
-            <MapPin className="h-4 w-4 text-slate-400" />
-            <span>{location}</span>
-          </div>
-        )}
-
+        {/* DESCRIPTION */}
         {description && (
-          <div className="flex gap-2">
-            <FileText className="h-4 w-4 text-slate-400" />
-            <span>{description}</span>
+          <div className="rounded-2xl border border-gray-100 bg-white p-4 space-y-2">
+            <div className="flex items-center gap-2 text-sm font-medium text-gray-900">
+              <FileText className="h-4 w-4" />
+              Descripción
+            </div>
+
+            <p className="text-sm text-gray-600 leading-relaxed">
+              {description}
+            </p>
           </div>
         )}
-      </div>
 
-      {/* RSVP */}
-      <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-5">
-        <div className="flex items-center justify-between">
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            Asistencia
-          </h2>
+        {/* ASISTENCIA */}
+        <div className="rounded-2xl border border-gray-100 bg-white p-4 space-y-5">
+          {/* TITLE */}
+          <div>
+            <h2 className="text-base font-semibold text-gray-900">
+              Asistencia
+            </h2>
+            <p className="text-sm text-gray-500">Estado del evento</p>
+          </div>
 
-          {status === 'confirmed' && (
-            <span className="flex items-center gap-1 text-emerald-600 text-xs font-medium">
-              <CheckCircle2 size={14} />
-              Confirmado
-            </span>
-          )}
-
-          {status === 'rejected' && (
-            <span className="flex items-center gap-1 text-rose-600 text-xs font-medium">
-              <XCircle size={14} />
-              Rechazado
-            </span>
-          )}
-
-          {status === 'pending' && (
-            <span className="text-xs text-slate-400">Sin respuesta</span>
-          )}
-        </div>
-
-        {/* resumen */}
-        <div className="grid grid-cols-2 gap-4">
-          <div className="rounded-xl bg-emerald-50 p-4 text-center">
-            <p className="text-2xl font-bold text-emerald-700">
-              {eventAttendance.confirmed}
-              <span className="text-slate-400 text-lg">
-                /{eventAttendance.total}
+          {/* STATUS */}
+          <div>
+            {isConfirmed && (
+              <span className="inline-flex items-center gap-1 text-sm text-emerald-600">
+                <CheckCircle2 className="h-4 w-4" />
+                Confirmado
               </span>
-            </p>
-            <p className="text-sm text-emerald-700">Confirmados</p>
-          </div>
+            )}
 
-          <div className="rounded-xl bg-red-50 p-4 text-center">
-            <p className="text-2xl font-bold text-red-600">
-              {eventAttendance.rejected}
-              <span className="text-slate-400 text-lg">
-                /{eventAttendance.total}
+            {isRejected && (
+              <span className="inline-flex items-center gap-1 text-sm text-rose-500">
+                <XCircle className="h-4 w-4" />
+                Rechazado
               </span>
+            )}
+
+            {!userAttendance && (
+              <span className="text-sm text-gray-400">Sin respuesta</span>
+            )}
+          </div>
+
+          {/* STATS */}
+          <div className="grid grid-cols-2 gap-3">
+            <div className="rounded-xl bg-gray-50 p-3 text-center">
+              <p className="text-2xl font-semibold text-emerald-600">
+                {confirmed}
+              </p>
+              <p className="text-xs text-gray-500">Confirmados</p>
+            </div>
+
+            <div className="rounded-xl bg-gray-50 p-3 text-center">
+              <p className="text-2xl font-semibold text-rose-500">{rejected}</p>
+              <p className="text-xs text-gray-500">Rechazados</p>
+            </div>
+          </div>
+
+          {/* PROGRESS */}
+          <div className="space-y-2">
+            <div className="h-1.5 rounded-full bg-gray-100 overflow-hidden">
+              <div
+                className="h-full bg-emerald-500 transition-all duration-300"
+                style={{ width: `${attendancePercentage}%` }}
+              />
+            </div>
+
+            <div className="flex justify-between text-[11px] text-gray-400">
+              <span>
+                {responded}/{total} respuestas
+              </span>
+              <span>{attendancePercentage}%</span>
+            </div>
+          </div>
+
+          {/* SEGMENTED CONTROL BLOQUEADO */}
+          <div className="space-y-2">
+            <div className="grid grid-cols-2 rounded-xl bg-gray-100 p-1">
+              {/* CONFIRMAR */}
+              <button
+                onClick={() => {
+                  if (!isConfirmed && calendarEvent && user) {
+                    if (!userAttendance) {
+                      create(calendarEvent.id, user.id, true)
+                    } else {
+                      update(userAttendance.id, true)
+                    }
+                  }
+                }}
+                disabled={isConfirmed}
+                className={`flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition
+                  ${
+                    isConfirmed
+                      ? 'bg-white shadow-sm text-emerald-600 cursor-default'
+                      : 'text-gray-500 hover:bg-white/70'
+                  }
+                `}
+              >
+                <CheckCircle2 className="h-4 w-4" />
+                Confirmar
+              </button>
+
+              {/* RECHAZAR */}
+              <button
+                onClick={() => {
+                  if (!isRejected && calendarEvent && user) {
+                    if (!userAttendance) {
+                      create(calendarEvent.id, user.id, false)
+                    } else {
+                      update(userAttendance.id, false)
+                    }
+                  }
+                }}
+                disabled={isRejected}
+                className={`flex items-center justify-center gap-2 rounded-lg py-2.5 text-sm font-medium transition
+                  ${
+                    isRejected
+                      ? 'bg-white shadow-sm text-rose-500 cursor-default'
+                      : 'text-gray-500 hover:bg-white/70'
+                  }
+                `}
+              >
+                <XCircle className="h-4 w-4" />
+                Rechazar
+              </button>
+            </div>
+
+            <p className="text-xs text-gray-400 text-center">
+              Has registrado tu respuesta para este evento.
             </p>
-            <p className="text-sm text-red-600">Rechazados</p>
           </div>
         </div>
-
-        {/* progress */}
-        <div className="space-y-2">
-          <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-emerald-500 transition-all"
-              style={{ width: `${attendancePercentage}%` }}
-            />
-          </div>
-
-          <div className="flex justify-between text-xs text-slate-500">
-            <span>{eventAttendance.total} respuestas</span>
-            <span>{attendancePercentage}% asistencia</span>
-          </div>
-        </div>
-
-        <div className="border-t border-slate-200 pt-5">
-          <div className="grid grid-cols-2 rounded-xl bg-slate-100 p-1">
-            {/* Confirmar */}
-            <button
-              onClick={() => {
-                if (calendarEvent && user) {
-                  if (!userAttendance) {
-                    create(calendarEvent.id, user.id, true)
-                  } else {
-                    update(userAttendance.id, true)
-                  }
-                }
-              }}
-              className={`flex items-center justify-center gap-2 rounded-lg py-3 text-sm font-medium transition
-            ${
-              userAttendance?.confirmed
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-600'
-            }`}
-            >
-              <CheckCircle2
-                size={18}
-                className={
-                  userAttendance?.confirmed
-                    ? 'text-emerald-500'
-                    : 'text-slate-400'
-                }
-              />
-              Confirmar
-            </button>
-
-            {/* Rechazar */}
-            <button
-              onClick={() => {
-                if (calendarEvent && user) {
-                  if (!userAttendance) {
-                    create(calendarEvent.id, user.id, false)
-                  } else {
-                    update(userAttendance.id, false)
-                  }
-                }
-              }}
-              className={`flex items-center justify-center gap-2 rounded-lg py-3 text-sm font-medium transition
-            ${
-              !userAttendance?.confirmed
-                ? 'bg-white text-slate-900 shadow-sm'
-                : 'text-slate-600'
-            }`}
-            >
-              <XCircle
-                size={18}
-                className={
-                  !userAttendance?.confirmed
-                    ? 'text-rose-500'
-                    : 'text-slate-400'
-                }
-              />
-              Rechazar
-            </button>
-          </div>
-        </div>
-
-        {/* info */}
-        <p className="text-xs text-slate-400">
-          Puedes modificar tu respuesta más tarde.
-        </p>
       </div>
     </div>
   )

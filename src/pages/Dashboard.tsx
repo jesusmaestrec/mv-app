@@ -6,41 +6,51 @@ export const Dashboard = () => {
   const { profile } = useProfile()
 
   return (
-    <div className="mx-auto w-full max-w-2xl space-y-6">
-      <section className="rounded-3xl border border-slate-200 bg-white p-6 sm:p-8 shadow-sm">
-        <div className="mb-3 flex flex-col gap-2 sm:gap-4 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p className="text-sm uppercase tracking-[0.24em] text-slate-500">
+    <div className="mx-auto w-full max-w-3xl space-y-10">
+      {/* HERO SECTION */}
+      <section className="rounded-2xl border border-gray-100 bg-white p-8 sm:p-10 shadow-sm">
+        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
+          {/* TEXT */}
+          <div className="space-y-2">
+            <p className="text-xs tracking-widest uppercase text-gray-400">
               Bienvenido
             </p>
-            <h1 className="text-3xl font-bold text-slate-900 sm:text-4xl">
+
+            <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 tracking-tight">
               {profile ? `Hola, ${profile.name}` : 'Bienvenido a MV App'}
             </h1>
+
+            <p className="text-sm text-gray-500 leading-relaxed max-w-md">
+              Aplicación web para gestión interna de la BCT Maestro Valero.
+            </p>
           </div>
-          <div className="flex items-center gap-3">
+
+          {/* BADGE */}
+          <div className="shrink-0">
             {profile && profile.voice ? (
-              <span className="inline-flex items-center rounded-full bg-white px-3 py-1 text-sm font-semibold text-slate-900 border border-slate-200 shadow-sm">
-                {profile.role.toUpperCase()} - {voiceLabels[profile.voice]}
-              </span>
+              <div className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-medium text-gray-700">
+                {profile.role.toUpperCase()} · {voiceLabels[profile.voice]}
+              </div>
             ) : (
-              <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-sm text-slate-600">
+              <div className="inline-flex items-center rounded-full border border-gray-100 bg-gray-50 px-3 py-1 text-sm text-gray-400">
                 Perfil no disponible
-              </span>
+              </div>
             )}
           </div>
         </div>
-        <p className="text-sm text-slate-600 sm:text-base">
-          Aplicación web para gestión interna de la BCT Maestro Valero.
-        </p>
       </section>
 
-      <div className="pt-2">
-        <h2 className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+      {/* SECTION TITLE */}
+      <div className="space-y-1">
+        <h2 className="text-xs font-medium tracking-widest uppercase text-gray-400">
           Eventos
         </h2>
       </div>
 
-      <EventItemList />
+      {/* LIST */}
+      <div className="rounded-2xl border border-gray-100 bg-white shadow-sm">
+        <EventItemList />
+      </div>
     </div>
   )
 }
