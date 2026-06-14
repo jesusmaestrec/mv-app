@@ -9,7 +9,7 @@ export async function getCalendarEventList(
     .select<'*', CalendarEvent>('*')
     .contains('voices', [voice])
 
-  if (error || !data) return null
+  if (error || !data) throw new Error()
 
   return data
 }
@@ -23,7 +23,7 @@ export async function getCalendarEvent(
     .eq('id', id)
     .single<CalendarEvent>()
 
-  if (error || !data) return null
+  if (error || !data) throw new Error()
 
   return data
 }

@@ -8,7 +8,7 @@ export async function getProfile(id: string): Promise<Profile | null> {
     .eq('id', id)
     .single<Profile>()
 
-  if (error || !data) return null
+  if (error || !data) throw new Error()
 
   return data
 }
