@@ -1,10 +1,7 @@
 import { Link } from 'react-router-dom'
 import { MapPin } from 'lucide-react'
-import { useCalendarEventList, useProfile } from '@/hooks'
 import type { CalendarEvent } from '@/interfaces'
-import { calendarEventLabel } from '@/constants'
-import { Loading } from './Loading'
-import { EmptyView } from './EmptyView'
+import { EventTypeTag } from '@/components'
 
 export const EventItem = ({
   calendarEvent
@@ -38,9 +35,6 @@ export const EventItem = ({
     minute: '2-digit'
   })
 
-  const typeKey = eventType ?? 'other'
-  const typeLabel = calendarEventLabel[typeKey]
-
   return (
     <Link to={`/events/${calendarEvent.id}`} className="group block">
       <div className="flex gap-5 rounded-2xl px-4 py-4 transition-colors hover:bg-gray-50">
@@ -62,9 +56,7 @@ export const EventItem = ({
         {/* CONTENIDO */}
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs uppercase tracking-wider text-gray-400">
-              {typeLabel}
-            </span>
+            <EventTypeTag eventType={eventType} />
           </div>
 
           <h3 className="text-base font-medium text-gray-900">{title}</h3>
@@ -88,33 +80,5 @@ export const EventItem = ({
         </div>
       </div>
     </Link>
-  )
-}
-
-export const EventItemList = () => {
-  const { profile } = useProfile()
-  const { calendarEvents, loading } = useCalendarEventList(profile?.voice)
-
-  const hasEvents = (calendarEvents?.length ?? 0) > 0
-
-  if (loading) {
-    return <Loading />
-  }
-
-  if (!hasEvents) {
-    return <EmptyView />
-  }
-
-  return (
-    <section>
-      {calendarEvents?.map((calendarEvent) => (
-        <div
-          key={calendarEvent.id}
-          className="rounded-2xl border border-gray-100 bg-white shadow-sm mb-4 last:mb-0"
-        >
-          <EventItem calendarEvent={calendarEvent} />
-        </div>
-      ))}
-    </section>
   )
 }

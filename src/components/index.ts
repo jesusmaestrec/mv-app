@@ -1,6 +1,6 @@
 export { NotificationList } from './NotificationList'
 export { Loading } from './Loading'
-export { EventItemList } from './EventItemList'
 export { AppLogo } from './AppLogo'
 export { EmptyView } from './EmptyView'
 export { AppHeader } from './AppHeader'
+export { EventTypeTag } from './EventTypeTag'
