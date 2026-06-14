@@ -40,7 +40,7 @@ export const Login = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white px-6">
+    <div className="min-h-dvh flex items-center justify-center bg-white px-6">
       <div className="w-full max-w-sm">
         {/* HEADER (Apple style) */}
         <div className="text-center mb-10">
