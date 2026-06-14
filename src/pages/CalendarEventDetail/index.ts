@@ -1,0 +1,1 @@
+export { CalendarEventDetail } from './CalendarEventDetail'

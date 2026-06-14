@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { createUserAttendance } from '../services'
-import type { UserAttendance } from '../interfaces'
+import { createUserAttendance } from '@/services'
+import type { UserAttendance } from '@/interfaces'
 import { useNotification } from './useNotification'
 
 export function useCreateUserAttendance() {

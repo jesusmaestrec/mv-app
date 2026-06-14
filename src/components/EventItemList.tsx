@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom'
 import { MapPin } from 'lucide-react'
-import { useCalendarEventList, useProfile } from '../hooks'
-import type { CalendarEvent } from '../interfaces'
-import { calendarEventLabel } from '../constants'
+import { useCalendarEventList, useProfile } from '@/hooks'
+import type { CalendarEvent } from '@/interfaces'
+import { calendarEventLabel } from '@/constants'
 import { Loading } from './Loading'
 import { EmptyView } from './EmptyView'
 

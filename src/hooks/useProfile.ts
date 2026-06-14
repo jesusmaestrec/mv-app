@@ -1,4 +1,4 @@
-import { useProfileStore } from '../store'
+import { useProfileStore } from '@/store'
 
 export function useProfile() {
   const profile = useProfileStore((state) => state.profile)

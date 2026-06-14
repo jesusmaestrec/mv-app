@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { getProfile } from '../services'
-import type { ProfileState } from '../interfaces'
+import { getProfile } from '@/services'
+import type { ProfileState } from '@/interfaces'
 
 export const useProfileStore = create<ProfileState>((set) => ({
   profile: null,

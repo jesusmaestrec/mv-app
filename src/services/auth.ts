@@ -1,5 +1,5 @@
 import { supabase } from './client'
-import type { AuthUser } from '../interfaces'
+import type { AuthUser } from '@/interfaces'
 
 export async function signIn(email: string, password: string) {
   const { data, error } = await supabase.auth.signInWithPassword({

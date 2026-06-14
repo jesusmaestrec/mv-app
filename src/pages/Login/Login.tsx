@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react'
-import { useAuth, useNotification } from '../hooks'
+import { useAuth, useNotification } from '@/hooks'
 import { useNavigate } from 'react-router-dom'
 import { Mail, Lock, Loader2 } from 'lucide-react'
 

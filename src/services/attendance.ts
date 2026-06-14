@@ -1,5 +1,5 @@
 import { supabase } from './client'
-import type { EventAttendance, UserAttendance } from '../interfaces'
+import type { EventAttendance, UserAttendance } from '@/interfaces'
 
 export async function getUserAttendance(
   eventId: string,

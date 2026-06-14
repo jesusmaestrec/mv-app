@@ -1,4 +1,4 @@
-import { useAuthStore } from '../store'
+import { useAuthStore } from '@/store'
 
 export function useAuth() {
   const user = useAuthStore((state) => state.user)

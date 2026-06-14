@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getUserAttendance } from '../services'
-import type { UserAttendance, UseUserAttendanceReturn } from '../interfaces'
+import { getUserAttendance } from '@/services'
+import type { UserAttendance, UseUserAttendanceReturn } from '@/interfaces'
 
 export function useUserAttendance(
   eventId?: string,

@@ -8,11 +8,11 @@ import {
   useCreateUserAttendance,
   useUpdateUserAttendance,
   useEventAttendance
-} from '../hooks'
+} from '@/hooks'
 
-import { BackButton, Loading } from '../components'
-import { calendarEventLabel } from '../constants'
-import { formatDate } from '../helpers'
+import { BackButton, Loading } from '@/components'
+import { calendarEventLabel } from '@/constants'
+import { formatDate } from '@/helpers'
 import { useEffect } from 'react'
 
 export const CalendarEventDetail = () => {

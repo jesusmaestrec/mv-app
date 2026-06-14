@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { useAuth, useProfile } from '../hooks'
+import { useAuth, useProfile } from '@/hooks'
 import { AppLogo } from './AppLogo'
 import { LogOut } from 'lucide-react'
 

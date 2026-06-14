@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getCalendarEvent } from '../services'
-import type { CalendarEvent, UseCalendarEventReturn } from '../interfaces'
+import { getCalendarEvent } from '@/services'
+import type { CalendarEvent, UseCalendarEventReturn } from '@/interfaces'
 
 export function useCalendarEvent(id?: string): UseCalendarEventReturn {
   const [calendarEvent, setCalendarEvent] = useState<CalendarEvent | null>(null)

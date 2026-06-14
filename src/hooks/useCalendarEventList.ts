@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react'
-import { getCalendarEventList } from '../services'
+import { getCalendarEventList } from '@/services'
 import type {
   CalendarEvent,
   InstrumentVoice,
   UseCalendarEventListReturn
-} from '../interfaces'
+} from '@/interfaces'
 
 export function useCalendarEventList(
   voice?: InstrumentVoice | null

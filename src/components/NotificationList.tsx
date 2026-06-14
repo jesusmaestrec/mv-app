@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react'
 import { AlertTriangle, CheckCircle2, Info, X } from 'lucide-react'
-import { useNotificationStore } from '../store/notificationStore'
-import type { NotificationType } from '../interfaces'
+import { useNotificationStore } from '@/store/notificationStore'
+import type { NotificationType } from '@/interfaces'
 
 const notificationConfig: Record<
   NotificationType,

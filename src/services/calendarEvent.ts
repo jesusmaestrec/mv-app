@@ -1,5 +1,5 @@
 import { supabase } from './client'
-import type { CalendarEvent, InstrumentVoice } from '../interfaces'
+import type { CalendarEvent, InstrumentVoice } from '@/interfaces'
 
 export async function getCalendarEventList(
   voice: InstrumentVoice

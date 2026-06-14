@@ -1,5 +1,5 @@
 import { create } from 'zustand'
-import type { NotificationState } from '../interfaces'
+import type { NotificationState } from '@/interfaces'
 
 const timeoutIds: number[] = []
 

@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { getEventAttendance as getEventAttendanceService } from '../services'
-import type { EventAttendance, UseEventAttendanceReturn } from '../interfaces'
+import { getEventAttendance as getEventAttendanceService } from '@/services'
+import type { EventAttendance, UseEventAttendanceReturn } from '@/interfaces'
 
 const initialAttendance: EventAttendance = {
   total: 0,

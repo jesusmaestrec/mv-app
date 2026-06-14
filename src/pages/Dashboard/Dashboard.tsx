@@ -1,6 +1,6 @@
-import { EventItemList } from '../components'
-import { voiceLabels } from '../constants'
-import { useProfile } from '../hooks'
+import { EventItemList } from '@/components'
+import { voiceLabels } from '@/constants'
+import { useProfile } from '@/hooks'
 
 export const Dashboard = () => {
   const { profile } = useProfile()
