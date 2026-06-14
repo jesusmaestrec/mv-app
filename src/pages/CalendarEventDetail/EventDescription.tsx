@@ -1,12 +1,10 @@
 import { FileText } from 'lucide-react'
-import type { CalendarEvent } from '@/interfaces'
+import { useCalendarEventDetail } from '@/hooks'
 
-interface Props {
-  event: CalendarEvent
-}
+export const EventDescription = () => {
+  const { calendarEvent } = useCalendarEventDetail()
 
-export const EventDescription = ({ event }: Props) => {
-  if (!event.description) return null
+  if (!calendarEvent) return null
 
   return (
     <div className="rounded-2xl border border-gray-100 bg-white p-4 space-y-2">
@@ -15,7 +13,7 @@ export const EventDescription = ({ event }: Props) => {
         Descripción
       </div>
 
-      <p className="text-sm text-gray-600">{event.description}</p>
+      <p className="text-sm text-gray-600">{calendarEvent.description}</p>
     </div>
   )
 }

@@ -1,10 +1,10 @@
-import type { EventAttendance } from '@/interfaces'
+import { useCalendarEventDetail } from '@/hooks'
 
-interface Props {
-  eventAttendance: EventAttendance
-}
+export const AttendanceProgress = () => {
+  const { eventAttendance } = useCalendarEventDetail()
 
-export const AttendanceProgress = ({ eventAttendance }: Props) => {
+  if (!eventAttendance) return null
+
   const responded = eventAttendance.confirmed + eventAttendance.rejected
 
   const percentage =

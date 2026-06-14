@@ -21,8 +21,7 @@ export const App = () => {
 
       {/* SCROLL AREA (solo esta zona scrollea) */}
       <main className="flex-1 min-h-0 overflow-y-auto">
-        {/* 👇 padding móvil optimizado */}
-        <div className="mx-auto w-full max-w-5xl px-4 py-5 sm:px-6 sm:py-8">
+        <div className="h-full mx-auto w-full max-w-5xl px-4 py-5 sm:px-6 sm:py-8">
           <Outlet />
         </div>
       </main>

@@ -1,14 +1,7 @@
 import { useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
-import {
-  useAuth,
-  useCalendarEvent,
-  useUserAttendance,
-  useEventAttendance,
-  useCreateUserAttendance,
-  useUpdateUserAttendance
-} from '@/hooks'
+import { useAuth, useCalendarEventDetail } from '@/hooks'
 
 import { Loading } from '@/components'
 
@@ -17,39 +10,33 @@ import { EventDescription } from './EventDescription'
 import { AttendancePanel } from './AttendancePanel'
 
 export const CalendarEventDetail = () => {
-  const { id } = useParams<{ id: string }>()
+  const { id } = useParams()
   const { user } = useAuth()
 
-  const { calendarEvent, loading } = useCalendarEvent(id)
-
-  const { getEventAttendance, eventAttendance } = useEventAttendance(
-    calendarEvent?.id
-  )
-
-  const { userAttendance, setUserAttendance } = useUserAttendance(
-    calendarEvent?.id,
-    user?.id
-  )
-
-  const { create, data: newAttendance } = useCreateUserAttendance()
-  const { update, data: updatedAttendance } = useUpdateUserAttendance()
+  const {
+    loading,
+    calendarEvent,
+    getCalendarEvent,
+    getEventAttendance,
+    getUserAttendance
+  } = useCalendarEventDetail()
 
   useEffect(() => {
-    if (newAttendance) setUserAttendance(newAttendance)
-    if (updatedAttendance) setUserAttendance(updatedAttendance)
+    if (id) void getCalendarEvent(id)
+  }, [id, getCalendarEvent])
 
-    void getEventAttendance(calendarEvent?.id)
-  }, [
-    newAttendance,
-    updatedAttendance,
-    setUserAttendance,
-    calendarEvent,
-    getEventAttendance
-  ])
+  useEffect(() => {
+    if (calendarEvent) {
+      void getEventAttendance(calendarEvent.id)
+      if (user) {
+        void getUserAttendance(calendarEvent.id, user.id)
+      }
+    }
+  }, [calendarEvent, user, getEventAttendance, getUserAttendance])
 
   if (loading) {
     return (
-      <div className="flex items-center justify-center bg-white">
+      <div className="h-full flex items-center justify-center bg-white">
         <Loading />
       </div>
     )
@@ -61,17 +48,9 @@ export const CalendarEventDetail = () => {
 
   return (
     <div className="bg-white px-4 py-6 space-y-6">
-      <EventHeader event={calendarEvent} />
-      <EventDescription event={calendarEvent} />
-
-      <AttendancePanel
-        event={calendarEvent}
-        user={user}
-        userAttendance={userAttendance}
-        eventAttendance={eventAttendance}
-        create={create}
-        update={update}
-      />
+      <EventHeader />
+      <EventDescription />
+      <AttendancePanel />
     </div>
   )
 }

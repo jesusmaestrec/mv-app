@@ -1,11 +1,9 @@
+import { useCalendarEventDetail } from '@/hooks'
 import { CheckCircle2, XCircle } from 'lucide-react'
-import type { UserAttendance } from '@/interfaces'
 
-interface Props {
-  userAttendance?: UserAttendance | null
-}
+export const AttendanceStatus = () => {
+  const { userAttendance } = useCalendarEventDetail()
 
-export const AttendanceStatus = ({ userAttendance }: Props) => {
   const isConfirmed = userAttendance?.confirmed === true
   const isRejected = userAttendance?.confirmed === false
 

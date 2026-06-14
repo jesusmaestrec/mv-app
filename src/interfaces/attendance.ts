@@ -1,14 +1,10 @@
+import type { CalendarEvent } from './calendarEvent'
+
 export interface UserAttendance {
   id: string
   eventId: string
   userId: string
   confirmed: boolean
-}
-
-export interface UseUserAttendanceReturn {
-  userAttendance: UserAttendance | null
-  setUserAttendance: React.Dispatch<React.SetStateAction<UserAttendance | null>>
-  loading: boolean
 }
 
 export interface EventAttendance {
@@ -17,8 +13,12 @@ export interface EventAttendance {
   rejected: number
 }
 
-export interface UseEventAttendanceReturn {
-  getEventAttendance: (eventId?: string) => Promise<void>
-  eventAttendance: EventAttendance
+export interface CalendarEventDetailState {
   loading: boolean
+  calendarEvent: CalendarEvent | null
+  getCalendarEvent: (id: string) => Promise<void>
+  eventAttendance: EventAttendance | null
+  getEventAttendance: (eventId: string) => Promise<void>
+  userAttendance: UserAttendance | null
+  getUserAttendance: (eventId: string, userId: string) => Promise<void>
 }

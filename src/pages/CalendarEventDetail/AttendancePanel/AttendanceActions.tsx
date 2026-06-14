@@ -1,42 +1,57 @@
 import { CheckCircle2, XCircle } from 'lucide-react'
 
-import type { CalendarEvent, AuthUser, UserAttendance } from '@/interfaces'
+import {
+  useAuth,
+  useCalendarEventDetail,
+  useCreateUserAttendance,
+  useUpdateUserAttendance
+} from '@/hooks'
 
-interface Props {
-  event: CalendarEvent
-  user: AuthUser | null
-  userAttendance?: UserAttendance | null
-  create: (eventId: string, userId: string, confirmed: boolean) => void
-  update: (id: string, confirmed: boolean) => void
-}
+export const AttendanceActions = () => {
+  const { user } = useAuth()
 
-export const AttendanceActions = ({
-  event,
-  user,
-  userAttendance,
-  create,
-  update
-}: Props) => {
+  const {
+    calendarEvent,
+    userAttendance,
+    getUserAttendance,
+    getEventAttendance
+  } = useCalendarEventDetail()
+
+  const { create } = useCreateUserAttendance()
+  const { update } = useUpdateUserAttendance()
+
   const isConfirmed = userAttendance?.confirmed === true
   const isRejected = userAttendance?.confirmed === false
 
   const handleConfirm = () => {
-    if (!user || isConfirmed) return
+    if (!calendarEvent || !user || isConfirmed) return
 
     if (!userAttendance) {
-      create(event.id, user.id, true)
+      create(calendarEvent.id, user.id, true).then(() => {
+        getUserAttendance(calendarEvent.id, user.id)
+        getEventAttendance(calendarEvent.id)
+      })
     } else {
-      update(userAttendance.id, true)
+      update(userAttendance.id, true).then(() => {
+        getUserAttendance(calendarEvent.id, user.id)
+        getEventAttendance(calendarEvent.id)
+      })
     }
   }
 
   const handleReject = () => {
-    if (!user || isRejected) return
+    if (!calendarEvent || !user || isRejected) return
 
     if (!userAttendance) {
-      create(event.id, user.id, false)
+      create(calendarEvent.id, user.id, false).then(() => {
+        getUserAttendance(calendarEvent.id, user.id)
+        getEventAttendance(calendarEvent.id)
+      })
     } else {
-      update(userAttendance.id, false)
+      update(userAttendance.id, false).then(() => {
+        getUserAttendance(calendarEvent.id, user.id)
+        getEventAttendance(calendarEvent.id)
+      })
     }
   }
 
