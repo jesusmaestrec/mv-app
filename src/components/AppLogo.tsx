@@ -1,17 +1,21 @@
-import { Layers } from 'lucide-react'
+import { Link } from 'react-router-dom'
 
 export const AppLogo = () => {
   return (
-    <div className="flex items-center gap-2">
-      {/* Icon */}
-      <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center bg-white">
-        <Layers className="w-4 h-4 text-slate-900" />
+    <Link to="/dashboard" className="flex items-center gap-2 select-none">
+      {/* ICONO */}
+      <div className="w-9 h-9 rounded-xl bg-black flex items-center justify-center shadow-sm">
+        <span className="text-white text-sm font-semibold tracking-tight">
+          MV
+        </span>
       </div>
 
-      {/* Text */}
-      <span className="text-sm font-medium text-slate-900 tracking-tight">
-        MV <span className="text-slate-500">APP</span>
-      </span>
-    </div>
+      {/* WORDMARK */}
+      <div className="flex items-baseline">
+        <span className="text-sm font-medium text-gray-900 tracking-tight">
+          App
+        </span>
+      </div>
+    </Link>
   )
 }
