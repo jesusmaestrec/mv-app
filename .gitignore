@@ -72,3 +72,5 @@ secrets.json
 # npm pack
 *.tgz
 
+.vercel
+.env*

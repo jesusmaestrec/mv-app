@@ -1,13 +1,25 @@
 import { useParams, Link } from 'react-router-dom'
-import { MapPin, ArrowLeft, Calendar } from 'lucide-react'
-import { useCalendarEvent } from '../hooks'
+import {
+  MapPin,
+  ArrowLeft,
+  Calendar,
+  FileText,
+  CheckCircle2,
+  XCircle
+} from 'lucide-react'
+import { useAttendance, useAuth, useCalendarEvent } from '../hooks'
 import { Loading } from '../components'
 import { calendarEventLabel } from '../constants'
 import { formatDate } from '../helpers'
 
 export const CalendarEventDetail = () => {
   const { id } = useParams()
+
+  const { user } = useAuth()
+
   const { calendarEvent, loading } = useCalendarEvent(id)
+
+  const { attendance } = useAttendance(calendarEvent?.id, user?.id)
 
   if (loading) return <Loading />
 
@@ -39,7 +51,6 @@ export const CalendarEventDetail = () => {
         <ArrowLeft className="h-4 w-4" />
         Volver
       </Link>
-
       {/* HEADER */}
       <div className="space-y-3">
         <span
@@ -52,9 +63,8 @@ export const CalendarEventDetail = () => {
           {title}
         </h1>
       </div>
-
       {/* META */}
-      <div className="rounded-2xl border border-slate-200 bg-slate-50 p-5 space-y-3 text-sm text-slate-700">
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-3 text-sm text-slate-700">
         <div className="flex items-center gap-2">
           <Calendar className="h-4 w-4 text-slate-400" />
           <span>{formattedDate}</span>
@@ -66,18 +76,96 @@ export const CalendarEventDetail = () => {
             <span>{location}</span>
           </div>
         )}
+
+        {description && (
+          <div className="flex gap-2">
+            <FileText className="h-4 w-4 text-slate-400" />
+            <span>{description}</span>
+          </div>
+        )}
       </div>
 
-      {/* DESCRIPTION */}
-      {description && (
-        <div>
-          <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
-            Descripción
-          </h2>
+      {/* RSVP */}
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 space-y-5">
+        <h2 className="text-sm font-semibold uppercase tracking-wide text-slate-500">
+          Asistencia
+        </h2>
+        {/* resumen */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="rounded-xl bg-emerald-50 p-4 text-center">
+            <p className="text-2xl font-bold text-emerald-700">
+              10<span className="text-slate-400 text-lg">/20</span>
+            </p>
+            <p className="text-sm text-emerald-700">Confirmados</p>
+          </div>
 
-          <p className="mt-3 text-slate-700 leading-relaxed">{description}</p>
+          <div className="rounded-xl bg-red-50 p-4 text-center">
+            <p className="text-2xl font-bold text-red-600">
+              10<span className="text-slate-400 text-lg">/20</span>
+            </p>
+            <p className="text-sm text-red-600">Rechazados</p>
+          </div>
         </div>
-      )}
+        {/* progress */}
+        <div className="space-y-2">
+          <div className="h-3 w-full bg-slate-100 rounded-full overflow-hidden">
+            <div
+              className="h-full bg-emerald-500 transition-all"
+              style={{ width: '50%' }}
+            />
+          </div>
+
+          <div className="flex justify-between text-xs text-slate-500">
+            <span>20 respuestas</span>
+            <span>50% asistencia</span>
+          </div>
+        </div>
+        <div className="border-t border-slate-200 pt-5">
+          <div className="grid grid-cols-2 rounded-xl bg-slate-100 p-1">
+            {/* Confirmar */}
+            <button
+              onClick={() => {}}
+              className={`flex items-center justify-center gap-2 rounded-lg py-3 text-sm font-medium transition
+            ${
+              attendance?.confirmed
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-600'
+            }`}
+            >
+              <CheckCircle2
+                size={18}
+                className={
+                  attendance?.confirmed ? 'text-emerald-500' : 'text-slate-400'
+                }
+              />
+              Confirmar
+            </button>
+
+            {/* No asistir */}
+            <button
+              onClick={() => {}}
+              className={`flex items-center justify-center gap-2 rounded-lg py-3 text-sm font-medium transition
+            ${
+              !attendance?.confirmed
+                ? 'bg-white text-slate-900 shadow-sm'
+                : 'text-slate-600'
+            }`}
+            >
+              <XCircle
+                size={18}
+                className={
+                  !attendance?.confirmed ? 'text-rose-500' : 'text-slate-400'
+                }
+              />
+              No asistir
+            </button>
+          </div>
+        </div>
+        {/* info */}
+        <p className="text-xs text-slate-400">
+          Puedes modificar tu respuesta más tarde.
+        </p>
+      </div>
     </div>
   )
 }
