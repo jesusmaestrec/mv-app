@@ -20,7 +20,7 @@ export const Login = () => {
   const isPasswordValid = password.length >= 8
   const isFormValid = isEmailValid && isPasswordValid
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
     if (!isFormValid || isLoading) return
 

@@ -48,9 +48,7 @@ export const Dashboard = () => {
       </div>
 
       {/* LIST */}
-      <div className="rounded-2xl border border-gray-100 bg-white shadow-sm">
-        <EventItemList />
-      </div>
+      <EventItemList />
     </div>
   )
 }

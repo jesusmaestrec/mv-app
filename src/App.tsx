@@ -8,18 +8,21 @@ export const App = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-white">
+      <div className="h-dvh flex items-center justify-center bg-white">
         <Loading />
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-white text-gray-900">
+    <div className="h-dvh flex flex-col bg-white text-gray-900 overflow-hidden">
+      {/* HEADER (siempre fijo) */}
       <AppHeader />
 
-      <main className="flex-1 overflow-y-auto px-6 py-8 sm:px-10">
-        <div className="mx-auto w-full max-w-5xl">
+      {/* SCROLL AREA (solo esta zona scrollea) */}
+      <main className="flex-1 min-h-0 overflow-y-auto">
+        {/* 👇 padding móvil optimizado */}
+        <div className="mx-auto w-full max-w-5xl px-4 py-5 sm:px-6 sm:py-8">
           <Outlet />
         </div>
       </main>

@@ -97,17 +97,24 @@ export const EventItemList = () => {
 
   const hasEvents = (calendarEvents?.length ?? 0) > 0
 
+  if (loading) {
+    return <Loading />
+  }
+
+  if (!hasEvents) {
+    return <EmptyView />
+  }
+
   return (
-    <section className="space-y-4">
-      {loading ? (
-        <Loading />
-      ) : hasEvents ? (
-        calendarEvents?.map((calendarEvent) => (
-          <EventItem key={calendarEvent.id} calendarEvent={calendarEvent} />
-        ))
-      ) : (
-        <EmptyView />
-      )}
+    <section>
+      {calendarEvents?.map((calendarEvent) => (
+        <div
+          key={calendarEvent.id}
+          className="rounded-2xl border border-gray-100 bg-white shadow-sm mb-4 last:mb-0"
+        >
+          <EventItem calendarEvent={calendarEvent} />
+        </div>
+      ))}
     </section>
   )
 }
