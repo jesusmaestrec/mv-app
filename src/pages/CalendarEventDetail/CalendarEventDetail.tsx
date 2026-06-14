@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { useAuth, useCalendarEventDetail } from '@/hooks'
 
-import { Loading } from '@/components'
+import { EmptyView, Loading } from '@/components'
 
 import { EventHeader } from './EventHeader'
 import { EventDescription } from './EventDescription'
@@ -34,23 +34,17 @@ export const CalendarEventDetail = () => {
     }
   }, [calendarEvent, user, getEventAttendance, getUserAttendance])
 
-  if (loading) {
-    return (
-      <div className="h-full flex items-center justify-center bg-white">
-        <Loading />
-      </div>
-    )
-  }
-
   if (!calendarEvent) {
-    return <div className="p-6 text-sm text-gray-400">Evento no encontrado</div>
+    return <EmptyView />
   }
 
   return (
-    <div className="bg-white px-4 py-6 space-y-6">
-      <EventHeader />
-      <EventDescription />
-      <AttendancePanel />
-    </div>
+    <Loading isLoading={loading}>
+      <div className="bg-white px-4 py-6 space-y-6">
+        <EventHeader />
+        <EventDescription />
+        <AttendancePanel />
+      </div>
+    </Loading>
   )
 }
