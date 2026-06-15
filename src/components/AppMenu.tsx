@@ -1,12 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import {
-  User,
-  X,
-  LogOut,
-  CalendarPlus,
-  BarChart3,
-  UserPlus
-} from 'lucide-react'
+import { User, X, LogOut, CalendarPlus, BarChart3 } from 'lucide-react'
 import { useAuth } from '@/hooks'
 import { BottomSheet } from '@/components'
 
@@ -15,19 +8,110 @@ type Props = {
   onClose: () => void
 }
 
+type MenuItem = {
+  label: string
+  description: string
+  icon: React.ElementType
+  path?: string
+  onClick?: () => void
+  variant?: 'default' | 'danger'
+}
+
+const Item = ({
+  item,
+  onNavigate
+}: {
+  item?: MenuItem
+  onNavigate: (path?: string) => void
+}) => {
+  if (!item) return null
+
+  const Icon = item.icon
+
+  return (
+    <button
+      onClick={() => {
+        if (item.onClick) item.onClick()
+        else onNavigate(item.path)
+      }}
+      className={[
+        'flex items-center gap-3 px-4 py-3 rounded-3xl text-left transition active:scale-[0.98]',
+        item.variant === 'danger'
+          ? 'hover:bg-rose-50/60'
+          : 'hover:bg-slate-100/60'
+      ].join(' ')}
+    >
+      <Icon
+        className={`h-5 w-5 ${
+          item.variant === 'danger' ? 'text-rose-500' : 'text-slate-500'
+        }`}
+      />
+
+      <div className="flex flex-col">
+        <span
+          className={`text-sm font-medium ${
+            item.variant === 'danger' ? 'text-rose-600' : 'text-slate-900'
+          }`}
+        >
+          {item.label}
+        </span>
+        <span
+          className={`text-xs ${
+            item.variant === 'danger' ? 'text-rose-400' : 'text-slate-400'
+          }`}
+        >
+          {item.description}
+        </span>
+      </div>
+    </button>
+  )
+}
+
 export const AppMenu = ({ isOpen, onClose }: Props) => {
   const { logout } = useAuth()
   const navigate = useNavigate()
 
-  const go = (path: string) => {
+  const go = (path?: string) => {
+    if (!path) return
     navigate(path)
     onClose()
   }
 
+  const items: MenuItem[] = [
+    {
+      label: 'Perfil',
+      description: 'Ver tu cuenta',
+      icon: User,
+      path: '/profile'
+    },
+    {
+      label: 'Estadísticas',
+      description: 'Métricas de eventos',
+      icon: BarChart3,
+      path: '/admin/stats'
+    },
+    {
+      label: 'Crear evento',
+      description: 'Nuevo evento en el sistema',
+      icon: CalendarPlus,
+      path: '/admin/events/new'
+    },
+    {
+      label: 'Cerrar sesión',
+      description: 'Salir de la cuenta',
+      icon: LogOut,
+      variant: 'danger',
+      onClick: () => {
+        logout()
+        onClose()
+      }
+    }
+  ]
+
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} title="Menú">
       <div className="flex flex-col gap-1 relative">
-        {/* CLOSE (optional, BottomSheet ya permite swipe + backdrop) */}
+        {/* CLOSE */}
         <button
           onClick={onClose}
           className="absolute right-2 -top-10 text-slate-400 hover:text-slate-600 transition"
@@ -35,86 +119,9 @@ export const AppMenu = ({ isOpen, onClose }: Props) => {
           <X className="h-4 w-4" />
         </button>
 
-        {/* PROFILE */}
-        <button
-          onClick={() => go('/profile')}
-          className="flex items-center gap-3 px-4 py-3 rounded-3xl text-left transition active:scale-[0.98] hover:bg-slate-100/60"
-        >
-          <User className="h-5 w-5 text-slate-500" />
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-slate-900">Perfil</span>
-            <span className="text-xs text-slate-400">Ver tu cuenta</span>
-          </div>
-        </button>
-
-        {/* ADMIN HEADER */}
-        <div className="mx-2 mt-2 mb-1 text-[11px] font-semibold uppercase tracking-wider text-slate-400">
-          Administración
-        </div>
-
-        {/* STATS */}
-        <button
-          onClick={() => go('/admin/stats')}
-          className="flex items-center gap-3 px-4 py-3 rounded-3xl text-left transition active:scale-[0.98] hover:bg-slate-100/60"
-        >
-          <BarChart3 className="h-5 w-5 text-slate-500" />
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-slate-900">
-              Estadísticas
-            </span>
-            <span className="text-xs text-slate-400">Métricas de eventos</span>
-          </div>
-        </button>
-
-        {/* CREATE EVENTS */}
-        <button
-          onClick={() => go('/admin/events/new')}
-          className="flex items-center gap-3 px-4 py-3 rounded-3xl text-left transition active:scale-[0.98] hover:bg-slate-100/60"
-        >
-          <CalendarPlus className="h-5 w-5 text-slate-500" />
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-slate-900">
-              Crear evento
-            </span>
-            <span className="text-xs text-slate-400">
-              Nuevo evento en el sistema
-            </span>
-          </div>
-        </button>
-
-        {/* USER REGISTRATION */}
-        <button
-          onClick={() => go('/admin/users/new')}
-          className="flex items-center gap-3 px-4 py-3 rounded-3xl text-left transition active:scale-[0.98] hover:bg-slate-100/60"
-        >
-          <UserPlus className="h-5 w-5 text-slate-500" />
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-slate-900">
-              Registro de usuarios
-            </span>
-            <span className="text-xs text-slate-400">Crear nuevas cuentas</span>
-          </div>
-        </button>
-
-        {/* DIVIDER */}
-        <div className="mx-2 my-2 h-px bg-slate-200/50" />
-
-        {/* LOGOUT */}
-        <button
-          onClick={() => {
-            logout()
-            onClose()
-          }}
-          className="flex items-center gap-3 px-4 py-3 rounded-3xl text-left transition active:scale-[0.98] hover:bg-rose-50/60"
-        >
-          <LogOut className="h-5 w-5 text-rose-500" />
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-rose-600">
-              Cerrar sesión
-            </span>
-            <span className="text-xs text-rose-400">Salir de la cuenta</span>
-          </div>
-        </button>
+        {items.map((item) => (
+          <Item key={item.label} item={item} onNavigate={go} />
+        ))}
       </div>
     </BottomSheet>
   )
