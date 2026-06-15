@@ -16,12 +16,7 @@ export const EventItemList = () => {
     <section>
       <Loading isLoading={loading} label={null}>
         {calendarEvents?.map((calendarEvent) => (
-          <>
-            <EventItem calendarEvent={calendarEvent} />
-            <EventItem calendarEvent={calendarEvent} />
-            <EventItem calendarEvent={calendarEvent} />
-            <EventItem calendarEvent={calendarEvent} />
-          </>
+          <EventItem calendarEvent={calendarEvent} />
         ))}
       </Loading>
     </section>

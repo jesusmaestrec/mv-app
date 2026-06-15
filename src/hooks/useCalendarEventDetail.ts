@@ -6,19 +6,22 @@ export function useCalendarEventDetail() {
   const calendarEvent = useCalendarEventDetailStore(
     (state) => state.calendarEvent
   )
-  const getCalendarEvent = useCalendarEventDetailStore(
-    (state) => state.getCalendarEvent
-  )
-
   const eventAttendance = useCalendarEventDetailStore(
     (state) => state.eventAttendance
   )
-  const getEventAttendance = useCalendarEventDetailStore(
-    (state) => state.getEventAttendance
-  )
-
   const userAttendance = useCalendarEventDetailStore(
     (state) => state.userAttendance
+  )
+
+  const initCalendarEventDetail = useCalendarEventDetailStore(
+    (state) => state.initCalendarEventDetail
+  )
+
+  const getCalendarEvent = useCalendarEventDetailStore(
+    (state) => state.getCalendarEvent
+  )
+  const getEventAttendance = useCalendarEventDetailStore(
+    (state) => state.getEventAttendance
   )
   const getUserAttendance = useCalendarEventDetailStore(
     (state) => state.getUserAttendance
@@ -27,10 +30,11 @@ export function useCalendarEventDetail() {
   return {
     loading,
     calendarEvent,
-    getCalendarEvent,
     eventAttendance,
-    getEventAttendance,
     userAttendance,
+    initCalendarEventDetail,
+    getCalendarEvent,
+    getEventAttendance,
     getUserAttendance
   }
 }

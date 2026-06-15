@@ -16,9 +16,10 @@ export interface EventAttendance {
 export interface CalendarEventDetailState {
   loading: boolean
   calendarEvent: CalendarEvent | null
-  getCalendarEvent: (id: string) => Promise<void>
   eventAttendance: EventAttendance | null
-  getEventAttendance: (eventId: string) => Promise<void>
   userAttendance: UserAttendance | null
+  initCalendarEventDetail: (eventId: string, userId: string) => Promise<void>
+  getCalendarEvent: (id: string) => Promise<void>
+  getEventAttendance: (eventId: string) => Promise<void>
   getUserAttendance: (eventId: string, userId: string) => Promise<void>
 }

@@ -13,26 +13,12 @@ export const CalendarEventDetail = () => {
   const { id } = useParams()
   const { user } = useAuth()
 
-  const {
-    loading,
-    calendarEvent,
-    getCalendarEvent,
-    getEventAttendance,
-    getUserAttendance
-  } = useCalendarEventDetail()
+  const { loading, calendarEvent, initCalendarEventDetail } =
+    useCalendarEventDetail()
 
   useEffect(() => {
-    if (id) void getCalendarEvent(id)
-  }, [id, getCalendarEvent])
-
-  useEffect(() => {
-    if (calendarEvent) {
-      void getEventAttendance(calendarEvent.id)
-      if (user) {
-        void getUserAttendance(calendarEvent.id, user.id)
-      }
-    }
-  }, [calendarEvent, user, getEventAttendance, getUserAttendance])
+    if (id && user) void initCalendarEventDetail(id, user.id)
+  }, [id, user, initCalendarEventDetail])
 
   if (!calendarEvent) {
     return <EmptyView />
