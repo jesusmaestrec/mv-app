@@ -37,6 +37,14 @@ export const AttendanceActions = () => {
 
     if (!calendarEvent || !user) return
 
+    // 🚫 evitar re-enviar el mismo valor
+    if (
+      (status === 'confirmed' && value === true) ||
+      (status === 'rejected' && value === false)
+    ) {
+      return
+    }
+
     if (!userAttendance) {
       await create(calendarEvent.id, user.id, value)
     } else {
@@ -85,18 +93,28 @@ export const AttendanceActions = () => {
         {OPTIONS.map((opt, index) => {
           const isActive = activeIndex === index
 
+          const isSameValue =
+            (opt.value === true && status === 'confirmed') ||
+            (opt.value === false && status === 'rejected')
+
           return (
             <motion.button
               key={opt.key}
-              onClick={() => setAttendance(opt.value)}
-              whileTap={{ scale: 0.94 }}
-              whileHover={{ scale: 1.01 }}
+              onClick={() => {
+                if (isSameValue) return
+                setAttendance(opt.value)
+              }}
+              disabled={isSameValue}
+              whileTap={{ scale: isSameValue ? 1 : 0.94 }}
+              whileHover={{ scale: isSameValue ? 1 : 1.01 }}
               transition={{
                 type: 'spring',
                 stiffness: 500,
                 damping: 30
               }}
-              className="relative z-10 flex w-1/2 items-center justify-center gap-2 rounded-3xl py-2.5 px-3 text-sm font-medium"
+              className={`relative z-10 flex w-1/2 items-center justify-center gap-2 rounded-3xl py-2.5 px-3 text-sm font-medium ${
+                isSameValue ? 'cursor-not-allowed' : ''
+              }`}
             >
               {/* ICON */}
               <motion.div
