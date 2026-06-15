@@ -8,18 +8,15 @@ import type {
 export async function getCalendarEventList(
   voice: InstrumentVoice
 ): Promise<CalendarEvent[] | null> {
-  const now = new Date().toISOString()
-
-  const { data, error } = await supabase
-    .from('calendar_events_view')
-    .select<'*', CalendarEvent>('*')
-    .contains('voices', [voice])
-    .gt('startsAt', now)
+  const { data, error } = await supabase.rpc('get_events_this_week', {
+    v: voice
+  })
 
   if (error || !data) throw new Error()
 
   return data
 }
+
 export async function getCalendarEvent(
   id: string
 ): Promise<CalendarEvent | null> {

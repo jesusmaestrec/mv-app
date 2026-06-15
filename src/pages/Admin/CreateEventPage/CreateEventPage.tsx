@@ -1,11 +1,14 @@
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { MapPin } from 'lucide-react'
 
 import { Card, Input, Select, Button, DateTimePicker } from '@/components'
 import { useCreateCalendarEvent } from '@/hooks'
 import type { CalendarEventType, NewCalendarEvent } from '@/interfaces'
 import { calendarEventLabel, rehearsalTypes } from '@/constants'
-import type { RehearsalTypeKey } from '@/constants/rehearsalTypes'
+import {
+  bandaCompleta,
+  type RehearsalTypeKey
+} from '@/constants/rehearsalTypes'
 
 const initialEvent: NewCalendarEvent = {
   title: '',
@@ -29,15 +32,25 @@ export const CreateEventPage = () => {
     }))
   }
 
-  const requiredFields = [
+  const isValid = useMemo(() => {
+    const baseValid =
+      newEvent.eventType &&
+      newEvent.description &&
+      newEvent.location &&
+      newEvent.startsAt
+
+    const extraValid =
+      newEvent.eventType === 'rehearsal' ? rehearsalType : newEvent.title
+
+    return Boolean(baseValid && extraValid)
+  }, [
     newEvent.eventType,
-    rehearsalType,
     newEvent.description,
     newEvent.location,
-    newEvent.startsAt
-  ]
-
-  const isValid = requiredFields.every((value) => value !== '' && value != null)
+    newEvent.startsAt,
+    newEvent.title,
+    rehearsalType
+  ])
 
   const eventTypeOptions = Object.entries(calendarEventLabel).map(
     ([key, value]) => ({
@@ -58,7 +71,10 @@ export const CreateEventPage = () => {
 
     if (!isValid) return
 
-    await create(newEvent)
+    const voices =
+      newEvent.eventType !== 'rehearsal' ? bandaCompleta : newEvent.voices
+
+    await create({ ...newEvent, voices })
 
     setNewEvent(initialEvent)
     setRehearsalType(undefined)
@@ -84,13 +100,15 @@ export const CreateEventPage = () => {
             options={eventTypeOptions}
             onChange={(val) => {
               updateNewEvent({
-                eventType: val as CalendarEventType
+                eventType: val as CalendarEventType,
+                title: ''
               })
+              setRehearsalType(undefined)
             }}
           />
 
-          {/* REHEARSAL TYPE */}
-          {newEvent.eventType === 'rehearsal' && (
+          {/* TITLE OR REHEARSAL TYPE */}
+          {newEvent.eventType === 'rehearsal' ? (
             <Select
               label="Tipo ensayo"
               options={rehearsalTypeOptions}
@@ -106,6 +124,17 @@ export const CreateEventPage = () => {
                   voices: option.voices
                 })
               }}
+            />
+          ) : (
+            <Input
+              label="Título"
+              placeholder="Título del evento"
+              value={newEvent.title ?? ''}
+              onChange={(e) =>
+                updateNewEvent({
+                  title: e.target.value
+                })
+              }
             />
           )}
 
