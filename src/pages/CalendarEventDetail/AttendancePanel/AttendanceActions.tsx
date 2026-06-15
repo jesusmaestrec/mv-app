@@ -29,7 +29,8 @@ export const AttendanceActions = () => {
         ? 'rejected'
         : 'none'
 
-  const activeIndex = status === 'confirmed' ? 0 : 1
+  const activeIndex =
+    status === 'confirmed' ? 0 : status === 'rejected' ? 1 : null
 
   const setAttendance = async (value: boolean) => {
     navigator.vibrate?.(8)
@@ -64,20 +65,22 @@ export const AttendanceActions = () => {
 
   return (
     <div className="w-full max-w-md mx-auto space-y-3">
-      {/* iOS segmented control (unchanged but polished feel assumed) */}
+      {/* segmented control */}
       <div className="relative flex w-full rounded-3xl bg-gray-200/70 p-1 backdrop-blur-md shadow-sm">
-        <motion.div
-          layout
-          transition={{
-            type: 'spring',
-            stiffness: 500,
-            damping: 35
-          }}
-          className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-3xl bg-white shadow-sm"
-          animate={{
-            x: activeIndex === 0 ? 0 : '100%'
-          }}
-        />
+        {activeIndex !== null && (
+          <motion.div
+            layout
+            transition={{
+              type: 'spring',
+              stiffness: 500,
+              damping: 35
+            }}
+            className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-3xl bg-white shadow-sm"
+            animate={{
+              x: activeIndex === 0 ? 0 : '100%'
+            }}
+          />
+        )}
 
         {OPTIONS.map((opt, index) => {
           const isActive = activeIndex === index
@@ -95,7 +98,7 @@ export const AttendanceActions = () => {
               }}
               className="relative z-10 flex w-1/2 items-center justify-center gap-2 rounded-3xl py-2.5 px-3 text-sm font-medium"
             >
-              {/* ICON with subtle motion */}
+              {/* ICON */}
               <motion.div
                 animate={{
                   scale: isActive ? 1.1 : 1,
@@ -123,7 +126,7 @@ export const AttendanceActions = () => {
                 {opt.label}
               </span>
 
-              {/* subtle active glow dot (iOS style micro feedback) */}
+              {/* glow */}
               {isActive && (
                 <motion.span
                   layoutId="activeGlow"

@@ -16,7 +16,7 @@ export async function getUserAttendance(
     .eq('userId', userId)
     .limit(1)
 
-  if (error || !data?.length) throw new Error()
+  if (error || !data) throw new Error()
 
   return data[0]
 }

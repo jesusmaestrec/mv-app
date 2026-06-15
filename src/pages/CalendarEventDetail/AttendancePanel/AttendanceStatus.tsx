@@ -3,7 +3,7 @@ import { CheckCircle2, XCircle, Clock } from 'lucide-react'
 export const AttendanceStatus = ({
   confirmed
 }: {
-  confirmed: boolean | null
+  confirmed?: boolean | null
 }) => {
   const isConfirmed = confirmed === true
   const isRejected = confirmed === false

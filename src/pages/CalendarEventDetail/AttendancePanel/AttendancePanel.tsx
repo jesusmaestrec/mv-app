@@ -8,7 +8,7 @@ import { Card } from '@/components'
 export const AttendancePanel = () => {
   const { eventAttendance, userAttendance } = useCalendarEventDetail()
 
-  if (!eventAttendance || !userAttendance) return null
+  if (!eventAttendance) return null
 
   return (
     <Card className="p-4 space-y-5">
@@ -17,7 +17,7 @@ export const AttendancePanel = () => {
         <p className="text-sm text-gray-500">Estado del evento</p>
       </div>
 
-      <AttendanceStatus confirmed={userAttendance.confirmed} />
+      <AttendanceStatus confirmed={userAttendance?.confirmed} />
       <AttendanceStats />
       <AttendanceProgress />
 
