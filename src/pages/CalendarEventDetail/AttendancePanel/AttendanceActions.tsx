@@ -15,7 +15,8 @@ export const AttendanceActions = () => {
     calendarEvent,
     userAttendance,
     getUserAttendance,
-    getEventAttendance
+    getEventAttendance,
+    getEventApplicants
   } = useCalendarEventDetail()
 
   const { create } = useCreateUserAttendance()
@@ -31,7 +32,6 @@ export const AttendanceActions = () => {
   const activeIndex = status === 'confirmed' ? 0 : 1
 
   const setAttendance = async (value: boolean) => {
-    // 📳 haptic feedback (iOS/Android)
     navigator.vibrate?.(8)
 
     if (!calendarEvent || !user) return
@@ -44,6 +44,7 @@ export const AttendanceActions = () => {
 
     getUserAttendance(calendarEvent.id, user.id)
     getEventAttendance(calendarEvent.id)
+    getEventApplicants(calendarEvent.id)
   }
 
   const OPTIONS = [
@@ -85,7 +86,6 @@ export const AttendanceActions = () => {
             <motion.button
               key={opt.key}
               onClick={() => setAttendance(opt.value)}
-              /* 🍎 iOS tap feel */
               whileTap={{ scale: 0.94 }}
               whileHover={{ scale: 1.01 }}
               transition={{

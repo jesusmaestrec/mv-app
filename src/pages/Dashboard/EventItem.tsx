@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { MapPin } from 'lucide-react'
 
 import type { CalendarEvent } from '@/interfaces'
-import { EventTypeTag } from '@/components'
+import { Card, EventTypeTag } from '@/components'
 
 export const EventItem = ({
   calendarEvent
@@ -39,7 +39,7 @@ export const EventItem = ({
   return (
     <div className="mb-4 last:mb-0">
       <Link to={`/events/${calendarEvent.id}`} className="group block">
-        <article className="flex gap-5 rounded-3xl px-4 py-4 border border-gray-100 bg-white shadow-sm">
+        <Card className="flex gap-5 p-4">
           {/* FECHA */}
           <div className="flex w-16 shrink-0 flex-col items-center border-r border-gray-200 pr-5">
             <span className="text-[10px] font-medium uppercase tracking-widest text-gray-400">
@@ -105,7 +105,7 @@ export const EventItem = ({
               </span>
             </div>
           </div>
-        </article>
+        </Card>
       </Link>
     </div>
   )

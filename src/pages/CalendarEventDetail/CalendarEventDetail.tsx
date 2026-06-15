@@ -8,6 +8,7 @@ import { EmptyView, Loading } from '@/components'
 import { EventHeader } from './EventHeader'
 import { EventDescription } from './EventDescription'
 import { AttendancePanel } from './AttendancePanel'
+import { EventApplicants } from './EventApplicants'
 
 export const CalendarEventDetail = () => {
   const { id } = useParams()
@@ -30,6 +31,7 @@ export const CalendarEventDetail = () => {
         <EventHeader />
         <EventDescription />
         <AttendancePanel />
+        <EventApplicants />
       </div>
     </Loading>
   )

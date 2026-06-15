@@ -1,11 +1,12 @@
-import { useCalendarEventDetail } from '@/hooks'
-import { CheckCircle2, XCircle } from 'lucide-react'
+import { CheckCircle2, XCircle, Clock } from 'lucide-react'
 
-export const AttendanceStatus = () => {
-  const { userAttendance } = useCalendarEventDetail()
-
-  const isConfirmed = userAttendance?.confirmed === true
-  const isRejected = userAttendance?.confirmed === false
+export const AttendanceStatus = ({
+  confirmed
+}: {
+  confirmed: boolean | null
+}) => {
+  const isConfirmed = confirmed === true
+  const isRejected = confirmed === false
 
   if (isConfirmed) {
     return (
@@ -25,5 +26,10 @@ export const AttendanceStatus = () => {
     )
   }
 
-  return <span className="text-sm text-gray-400">Sin respuesta</span>
+  return (
+    <span className="text-sm text-gray-400 flex items-center gap-1">
+      <Clock className="h-4 w-4" />
+      Pendiente
+    </span>
+  )
 }

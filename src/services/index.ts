@@ -4,6 +4,7 @@ export { getCalendarEventList, getCalendarEvent } from './calendarEvent'
 export {
   getUserAttendance,
   getEventAttendance,
+  getEventApplicants,
   createUserAttendance,
   updateUserAttendance
 } from './attendance'

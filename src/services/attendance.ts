@@ -1,5 +1,9 @@
 import { supabase } from './client'
-import type { EventAttendance, UserAttendance } from '@/interfaces'
+import type {
+  EventApplicant,
+  EventAttendance,
+  UserAttendance
+} from '@/interfaces'
 
 export async function getUserAttendance(
   eventId: string,
@@ -33,6 +37,18 @@ export async function getEventAttendance(
     confirmed: data?.confirmed ?? 0,
     rejected: data?.rejected ?? 0
   }
+}
+
+export async function getEventApplicants(
+  eventId: string
+): Promise<EventApplicant[]> {
+  const { data, error } = await supabase.rpc('get_event_applicants', {
+    event_id: eventId
+  })
+
+  if (error) throw error
+
+  return data ?? []
 }
 
 export async function createUserAttendance(

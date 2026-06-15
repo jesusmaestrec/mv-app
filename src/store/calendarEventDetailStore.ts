@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import {
   getCalendarEvent,
+  getEventApplicants,
   getEventAttendance,
   getUserAttendance
 } from '@/services'
@@ -12,22 +13,29 @@ export const useCalendarEventDetailStore = create<CalendarEventDetailState>(
     calendarEvent: null,
     userAttendance: null,
     eventAttendance: null,
+    eventApplicants: [],
 
     initCalendarEventDetail: async (eventId: string, userId: string) => {
       set({ loading: true })
 
       try {
-        const [calendarEvent, userAttendance, eventAttendance] =
-          await Promise.all([
-            getCalendarEvent(eventId),
-            getUserAttendance(eventId, userId),
-            getEventAttendance(eventId)
-          ])
+        const [
+          calendarEvent,
+          userAttendance,
+          eventAttendance,
+          eventApplicants
+        ] = await Promise.all([
+          getCalendarEvent(eventId),
+          getUserAttendance(eventId, userId),
+          getEventAttendance(eventId),
+          getEventApplicants(eventId)
+        ])
 
         set({
           calendarEvent,
           userAttendance,
           eventAttendance,
+          eventApplicants,
           loading: false
         })
       } catch (error) {
@@ -36,20 +44,21 @@ export const useCalendarEventDetailStore = create<CalendarEventDetailState>(
       }
     },
 
-    // si quieres mantenerlos individuales, puedes dejarlos así:
     getCalendarEvent: async (id) => {
       const calendarEvent = await getCalendarEvent(id)
       set({ calendarEvent })
     },
-
     getUserAttendance: async (eventId, userId) => {
       const userAttendance = await getUserAttendance(eventId, userId)
       set({ userAttendance })
     },
-
     getEventAttendance: async (eventId) => {
       const eventAttendance = await getEventAttendance(eventId)
       set({ eventAttendance })
+    },
+    getEventApplicants: async (eventId) => {
+      const eventApplicants = await getEventApplicants(eventId)
+      set({ eventApplicants })
     }
   })
 )

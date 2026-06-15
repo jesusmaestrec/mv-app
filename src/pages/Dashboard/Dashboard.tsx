@@ -1,5 +1,6 @@
 import { voiceLabels } from '@/constants'
 import { useProfile } from '@/hooks'
+import { Card } from '@/components'
 import { EventItemList } from './EventItemList'
 
 export const Dashboard = () => {
@@ -8,7 +9,7 @@ export const Dashboard = () => {
   return (
     <div className="mx-auto w-full max-w-3xl space-y-10">
       {/* HERO */}
-      <section className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
+      <Card className="p-8">
         <div className="space-y-4">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-gray-400">
@@ -36,7 +37,7 @@ export const Dashboard = () => {
             Aplicación web para gestión interna de la BCT Maestro Valero.
           </p>
         </div>
-      </section>
+      </Card>
 
       {/* EVENTOS */}
       <section className="space-y-4">
