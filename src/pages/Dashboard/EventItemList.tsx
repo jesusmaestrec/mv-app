@@ -16,12 +16,12 @@ export const EventItemList = () => {
     <section>
       <Loading isLoading={loading} label={null}>
         {calendarEvents?.map((calendarEvent) => (
-          <div
-            key={calendarEvent.id}
-            className="rounded-2xl border border-gray-100 bg-white shadow-sm mb-4 last:mb-0"
-          >
+          <>
             <EventItem calendarEvent={calendarEvent} />
-          </div>
+            <EventItem calendarEvent={calendarEvent} />
+            <EventItem calendarEvent={calendarEvent} />
+            <EventItem calendarEvent={calendarEvent} />
+          </>
         ))}
       </Loading>
     </section>

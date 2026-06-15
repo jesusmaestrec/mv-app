@@ -49,7 +49,7 @@ export function NotificationList() {
                 stiffness: 500,
                 damping: 40
               }}
-              className="flex items-center gap-2 rounded-xl bg-black/90 px-3 py-2 text-white shadow-lg"
+              className="flex items-center gap-2 rounded-3xl bg-black/90 px-3 py-2 text-white shadow-lg"
               style={{
                 zIndex: 1000 - index
               }}

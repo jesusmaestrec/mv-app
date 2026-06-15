@@ -12,7 +12,7 @@ export const EmptyView = ({
   action
 }: EmptyStateProps) => {
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white p-5">
+    <div className="rounded-3xl border border-slate-200 bg-white p-5">
       <div className="flex items-start gap-4">
         {/* Icon */}
         <div className="w-10 h-10 rounded-full bg-slate-50 flex items-center justify-center border border-slate-200 shrink-0">

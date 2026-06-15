@@ -64,7 +64,7 @@ export const AttendanceActions = () => {
   return (
     <div className="w-full max-w-md mx-auto space-y-3">
       {/* iOS segmented control (unchanged but polished feel assumed) */}
-      <div className="relative flex w-full rounded-2xl bg-gray-200/70 p-1 backdrop-blur-md shadow-sm">
+      <div className="relative flex w-full rounded-3xl bg-gray-200/70 p-1 backdrop-blur-md shadow-sm">
         <motion.div
           layout
           transition={{
@@ -72,7 +72,7 @@ export const AttendanceActions = () => {
             stiffness: 500,
             damping: 35
           }}
-          className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-xl bg-white shadow-sm"
+          className="absolute top-1 bottom-1 left-1 w-[calc(50%-4px)] rounded-3xl bg-white shadow-sm"
           animate={{
             x: activeIndex === 0 ? 0 : '100%'
           }}
@@ -93,7 +93,7 @@ export const AttendanceActions = () => {
                 stiffness: 500,
                 damping: 30
               }}
-              className="relative z-10 flex w-1/2 items-center justify-center gap-2 rounded-xl py-2.5 px-3 text-sm font-medium"
+              className="relative z-10 flex w-1/2 items-center justify-center gap-2 rounded-3xl py-2.5 px-3 text-sm font-medium"
             >
               {/* ICON with subtle motion */}
               <motion.div
@@ -127,7 +127,7 @@ export const AttendanceActions = () => {
               {isActive && (
                 <motion.span
                   layoutId="activeGlow"
-                  className="absolute inset-0 rounded-xl bg-white/40"
+                  className="absolute inset-0 rounded-3xl bg-white/40"
                   transition={{
                     type: 'spring',
                     stiffness: 500,

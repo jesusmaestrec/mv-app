@@ -7,48 +7,45 @@ export const Dashboard = () => {
 
   return (
     <div className="mx-auto w-full max-w-3xl space-y-10">
-      {/* HERO SECTION */}
-      <section className="rounded-2xl border border-gray-100 bg-white p-8 sm:p-10 shadow-sm">
-        <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-          {/* TEXT */}
-          <div className="space-y-2">
-            <p className="text-xs tracking-widest uppercase text-gray-400">
+      {/* HERO */}
+      <section className="rounded-3xl border border-gray-100 bg-white p-8 shadow-sm">
+        <div className="space-y-4">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-gray-400">
               Bienvenido
             </p>
 
-            <h1 className="text-3xl sm:text-4xl font-semibold text-gray-900 tracking-tight">
+            <h1 className="mt-3 text-4xl font-semibold tracking-tight text-gray-900">
               {profile ? `Hola, ${profile.name}` : 'Bienvenido a MV App'}
             </h1>
 
-            <p className="text-sm text-gray-500 leading-relaxed max-w-md">
-              Aplicación web para gestión interna de la BCT Maestro Valero.
-            </p>
-          </div>
-
-          {/* BADGE */}
-          <div className="shrink-0">
-            {profile && profile.voice ? (
-              <div className="inline-flex items-center rounded-full border border-gray-200 bg-gray-50 px-3 py-1 text-sm font-medium text-gray-700">
-                {profile.role.toUpperCase()} · {voiceLabels[profile.voice]}
-              </div>
-            ) : (
-              <div className="inline-flex items-center rounded-full border border-gray-100 bg-gray-50 px-3 py-1 text-sm text-gray-400">
-                Perfil no disponible
-              </div>
+            {profile && (
+              <p className="mt-2 text-base text-gray-500">
+                {profile.role.toUpperCase()}
+                {profile.voice && (
+                  <>
+                    {' · '}
+                    {voiceLabels[profile.voice]}
+                  </>
+                )}
+              </p>
             )}
           </div>
+
+          <p className="max-w-md text-sm leading-relaxed text-gray-500">
+            Aplicación web para gestión interna de la BCT Maestro Valero.
+          </p>
         </div>
       </section>
 
-      {/* SECTION TITLE */}
-      <div className="space-y-1">
-        <h2 className="text-xs font-medium tracking-widest uppercase text-gray-400">
+      {/* EVENTOS */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-gray-400">
           Eventos
         </h2>
-      </div>
 
-      {/* LIST */}
-      <EventItemList />
+        <EventItemList />
+      </section>
     </div>
   )
 }

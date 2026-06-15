@@ -46,7 +46,7 @@ export const Login = () => {
         <div className="text-center mb-10">
           {/* Logo minimal */}
           <div className="flex items-center justify-center mb-6">
-            <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center shadow-sm">
+            <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center shadow-sm">
               <span className="text-white font-semibold text-lg tracking-tight">
                 MV
               </span>
@@ -77,7 +77,7 @@ export const Login = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   placeholder="tu@email.com"
-                  className={`w-full pl-10 pr-3 py-3 rounded-xl border text-sm outline-none transition
+                  className={`w-full pl-10 pr-3 py-3 rounded-3xl border text-sm outline-none transition
                     ${
                       email && !isEmailValid
                         ? 'border-red-400'
@@ -108,7 +108,7 @@ export const Login = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   placeholder="••••••••"
-                  className={`w-full pl-10 pr-3 py-3 rounded-xl border text-sm outline-none transition
+                  className={`w-full pl-10 pr-3 py-3 rounded-3xl border text-sm outline-none transition
                     ${
                       password && !isPasswordValid
                         ? 'border-red-400'
@@ -127,7 +127,7 @@ export const Login = () => {
             <button
               type="submit"
               disabled={!isFormValid || isLoading}
-              className="w-full mt-6 flex items-center justify-center gap-2 py-3 rounded-xl text-sm font-medium transition
+              className="w-full mt-6 flex items-center justify-center gap-2 py-3 rounded-3xl text-sm font-medium transition
                 bg-black text-white
                 hover:bg-gray-900
                 disabled:opacity-40 disabled:cursor-not-allowed"

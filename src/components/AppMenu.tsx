@@ -63,7 +63,7 @@ export const AppMenu = ({ isOpen, onClose }: Props) => {
                   className="
                     flex items-center gap-3
                     px-4 py-3
-                    rounded-2xl
+                    rounded-3xl
                     text-left
                     transition
                     active:scale-[0.98]
@@ -94,7 +94,7 @@ export const AppMenu = ({ isOpen, onClose }: Props) => {
                   className="
                     flex items-center gap-3
                     px-4 py-3
-                    rounded-2xl
+                    rounded-3xl
                     text-left
                     transition
                     active:scale-[0.98]

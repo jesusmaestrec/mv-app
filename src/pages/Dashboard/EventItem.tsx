@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { MapPin } from 'lucide-react'
+
 import type { CalendarEvent } from '@/interfaces'
 import { EventTypeTag } from '@/components'
 
@@ -36,49 +37,76 @@ export const EventItem = ({
   })
 
   return (
-    <Link to={`/events/${calendarEvent.id}`} className="group block">
-      <div className="flex gap-5 rounded-2xl px-4 py-4 transition-colors hover:bg-gray-50">
-        {/* FECHA */}
-        <div className="w-16 shrink-0 text-center">
-          <p className="text-[10px] font-medium uppercase tracking-widest text-gray-400">
-            {weekday}
-          </p>
+    <div className="mb-4 last:mb-0">
+      <Link to={`/events/${calendarEvent.id}`} className="group block">
+        <article className="flex gap-5 rounded-3xl px-4 py-4 border border-gray-100 bg-white shadow-sm">
+          {/* FECHA */}
+          <div className="flex w-16 shrink-0 flex-col items-center border-r border-gray-200 pr-5">
+            <span className="text-[10px] font-medium uppercase tracking-widest text-gray-400">
+              {weekday}
+            </span>
 
-          <p className="text-3xl font-semibold tracking-tight text-gray-900 leading-none">
-            {day}
-          </p>
+            <span className="text-4xl font-bold leading-none text-gray-900">
+              {day}
+            </span>
 
-          <p className="mt-1 text-[10px] font-medium uppercase tracking-widest text-gray-400">
-            {month}
-          </p>
-        </div>
-
-        {/* CONTENIDO */}
-        <div className="min-w-0 flex-1">
-          <div className="flex items-center gap-2 mb-1">
-            <EventTypeTag eventType={eventType} />
+            <span className="mt-1 text-[10px] font-medium uppercase tracking-widest text-gray-400">
+              {month}
+            </span>
           </div>
 
-          <h3 className="text-base font-medium text-gray-900">{title}</h3>
+          {/* CONTENIDO */}
+          <div className="min-w-0 flex-1">
+            <div className="mb-2">
+              <EventTypeTag eventType={eventType} />
+            </div>
 
-          {description && (
-            <p className="mt-1 text-sm text-gray-500 line-clamp-2">
-              {description}
-            </p>
-          )}
+            <h3
+              className="
+              text-lg
+              font-semibold
+              text-gray-900
+              transition-colors
+              group-hover:text-primary
+            "
+            >
+              {title}
+            </h3>
 
-          <div className="mt-3 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-gray-500">
-            {location && (
-              <div className="flex items-center gap-1">
-                <MapPin className="h-4 w-4" />
-                <span>{location}</span>
-              </div>
+            {description && (
+              <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-gray-500">
+                {description}
+              </p>
             )}
 
-            <span className="font-medium text-gray-700">{time}</span>
+            <div className="mt-4 flex items-center justify-between gap-4">
+              {location ? (
+                <div className="flex min-w-0 items-center gap-1 text-sm text-gray-500">
+                  <MapPin className="h-4 w-4 shrink-0" />
+                  <span className="truncate">{location}</span>
+                </div>
+              ) : (
+                <div />
+              )}
+
+              <span
+                className="
+                shrink-0
+                rounded-md
+                bg-gray-100
+                px-2.5
+                py-1
+                text-sm
+                font-semibold
+                text-gray-700
+              "
+              >
+                {time}
+              </span>
+            </div>
           </div>
-        </div>
-      </div>
-    </Link>
+        </article>
+      </Link>
+    </div>
   )
 }
