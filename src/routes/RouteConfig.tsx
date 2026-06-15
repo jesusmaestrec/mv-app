@@ -1,5 +1,11 @@
 import { Route, Routes, Navigate } from 'react-router-dom'
-import { CalendarEventDetail, Dashboard, Login, ProfilePage } from '@/pages'
+import {
+  CalendarEventDetail,
+  CreateEventPage,
+  Dashboard,
+  Login,
+  ProfilePage
+} from '@/pages'
 import { App } from '@/App'
 import { AuthGate } from './AuthGate'
 
@@ -26,7 +32,6 @@ export function RouteConfig() {
             </AuthGate>
           }
         />
-
         <Route
           path="events/:id"
           element={
@@ -35,12 +40,19 @@ export function RouteConfig() {
             </AuthGate>
           }
         />
-
         <Route
           path="profile"
           element={
             <AuthGate type="private">
               <ProfilePage />
+            </AuthGate>
+          }
+        />
+        <Route
+          path="admin/events/new"
+          element={
+            <AuthGate type="private">
+              <CreateEventPage />
             </AuthGate>
           }
         />

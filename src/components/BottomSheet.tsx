@@ -43,7 +43,7 @@ export const BottomSheet = ({ isOpen, onClose, title, children }: Props) => {
             dragElastic={0.15}
             onDragEnd={handleDragEnd}
             dragConstraints={{ top: 0, bottom: 0 }}
-            className="fixed bottom-0 left-0 right-0 z-50 mx-auto w-full max-w-md"
+            className="fixed bottom-0 left-0 right-0 z-50 mb-0 mx-auto w-full max-w-md"
           >
             {/* CARD (AUTO HEIGHT) */}
             <div

@@ -1,4 +1,5 @@
 import type { InstrumentVoice } from './profile'
+import type { NonNullableFields } from './general'
 
 export type CalendarEventType =
   | 'rehearsal'
@@ -14,6 +15,13 @@ export interface CalendarEvent {
   eventType: CalendarEventType
   startsAt: string
   voices: InstrumentVoice[] | null
+}
+
+export type NewCalendarEvent = Omit<
+  NonNullableFields<CalendarEvent>,
+  'id' | 'eventType'
+> & {
+  eventType: CalendarEventType | ''
 }
 
 export interface UseCalendarEventListReturn {
