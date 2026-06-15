@@ -1,12 +1,13 @@
 import { useMemo, useState } from 'react'
 import { useAuth, useNotification } from '@/hooks'
 import { useNavigate } from 'react-router-dom'
-import { Mail, Lock, Loader2 } from 'lucide-react'
+import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react'
 
 export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
 
   const { login } = useAuth()
   const { showNotification } = useNotification()
@@ -42,9 +43,8 @@ export const Login = () => {
   return (
     <div className="min-h-dvh flex items-center justify-center bg-white px-6">
       <div className="w-full max-w-sm">
-        {/* HEADER (Apple style) */}
+        {/* HEADER */}
         <div className="text-center mb-10">
-          {/* Logo minimal */}
           <div className="flex items-center justify-center mb-6">
             <div className="w-12 h-12 rounded-xl bg-black flex items-center justify-center shadow-sm">
               <span className="text-white font-semibold text-lg tracking-tight">
@@ -62,92 +62,102 @@ export const Login = () => {
           </p>
         </div>
 
-        {/* FORM CARD */}
-        <div className="space-y-6">
-          <form onSubmit={handleSubmit} className="space-y-4">
-            {/* EMAIL */}
-            <div>
-              <label className="text-xs font-medium text-gray-600">Email</label>
+        {/* FORM */}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          {/* EMAIL */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">Email</label>
 
-              <div className="relative mt-1">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <div className="relative mt-1">
+              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
 
-                <input
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="tu@email.com"
-                  className={`w-full pl-10 pr-3 py-3 rounded-3xl border text-sm outline-none transition
-                    ${
-                      email && !isEmailValid
-                        ? 'border-red-400'
-                        : 'border-gray-200 focus:border-gray-400'
-                    }
-                  `}
-                />
-              </div>
-
-              {email && !isEmailValid && (
-                <p className="text-xs text-red-500 mt-1">
-                  Introduce un email válido
-                </p>
-              )}
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="tu@email.com"
+                className={`w-full pl-10 pr-3 py-3 rounded-3xl border text-sm outline-none transition
+                  ${
+                    email && !isEmailValid
+                      ? 'border-red-400'
+                      : 'border-gray-200 focus:border-gray-400'
+                  }
+                `}
+              />
             </div>
 
-            {/* PASSWORD */}
-            <div>
-              <label className="text-xs font-medium text-gray-600">
-                Contraseña
-              </label>
+            {email && !isEmailValid && (
+              <p className="text-xs text-red-500 mt-1">
+                Introduce un email válido
+              </p>
+            )}
+          </div>
 
-              <div className="relative mt-1">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+          {/* PASSWORD */}
+          <div>
+            <label className="text-xs font-medium text-gray-600">
+              Contraseña
+            </label>
 
-                <input
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  placeholder="••••••••"
-                  className={`w-full pl-10 pr-3 py-3 rounded-3xl border text-sm outline-none transition
-                    ${
-                      password && !isPasswordValid
-                        ? 'border-red-400'
-                        : 'border-gray-200 focus:border-gray-400'
-                    }
-                  `}
-                />
-              </div>
+            <div className="relative mt-1">
+              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
 
-              {password && !isPasswordValid && (
-                <p className="text-xs text-red-500 mt-1">Mínimo 8 caracteres</p>
-              )}
+              <input
+                type={showPassword ? 'text' : 'password'}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                placeholder="••••••••"
+                className={`w-full pl-10 pr-10 py-3 rounded-3xl border text-sm outline-none transition
+                  ${
+                    password && !isPasswordValid
+                      ? 'border-red-400'
+                      : 'border-gray-200 focus:border-gray-400'
+                  }
+                `}
+              />
+
+              <button
+                type="button"
+                onClick={() => setShowPassword((prev) => !prev)}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+              >
+                {showPassword ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
+              </button>
             </div>
 
-            {/* BUTTON */}
-            <button
-              type="submit"
-              disabled={!isFormValid || isLoading}
-              className="w-full mt-6 flex items-center justify-center gap-2 py-3 rounded-3xl text-sm font-medium transition
-                bg-black text-white
-                hover:bg-gray-900
-                disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              {isLoading ? (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  Iniciando sesión
-                </>
-              ) : (
-                'Continuar'
-              )}
-            </button>
-          </form>
+            {password && !isPasswordValid && (
+              <p className="text-xs text-red-500 mt-1">Mínimo 8 caracteres</p>
+            )}
+          </div>
 
-          {/* FOOTER */}
-          <p className="text-center text-xs text-gray-400 pt-6">
-            © {new Date().getFullYear()} MV App. Todos los derechos reservados.
-          </p>
-        </div>
+          {/* BUTTON */}
+          <button
+            type="submit"
+            disabled={!isFormValid || isLoading}
+            className="w-full mt-6 flex items-center justify-center gap-2 py-3 rounded-3xl text-sm font-medium transition
+              bg-black text-white
+              hover:bg-gray-900
+              disabled:opacity-40 disabled:cursor-not-allowed"
+          >
+            {isLoading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" />
+                Iniciando sesión
+              </>
+            ) : (
+              'Continuar'
+            )}
+          </button>
+        </form>
+
+        {/* FOOTER */}
+        <p className="text-center text-xs text-gray-400 pt-6">
+          © {new Date().getFullYear()} MV App. Todos los derechos reservados.
+        </p>
       </div>
     </div>
   )
