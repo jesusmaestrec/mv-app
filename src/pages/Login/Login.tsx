@@ -1,13 +1,13 @@
 import { useMemo, useState } from 'react'
 import { useAuth, useNotification } from '@/hooks'
 import { useNavigate } from 'react-router-dom'
-import { Mail, Lock, Loader2, Eye, EyeOff } from 'lucide-react'
+import { Mail, Lock } from 'lucide-react'
+import { Button, Input } from '@/components'
 
 export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
 
   const { login } = useAuth()
   const { showNotification } = useNotification()
@@ -65,93 +65,32 @@ export const Login = () => {
         {/* FORM */}
         <form onSubmit={handleSubmit} className="space-y-4">
           {/* EMAIL */}
-          <div>
-            <label className="text-xs font-medium text-gray-600">Email</label>
-
-            <div className="relative mt-1">
-              <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="tu@email.com"
-                className={`w-full pl-10 pr-3 py-3 rounded-3xl border text-sm outline-none transition
-                  ${
-                    email && !isEmailValid
-                      ? 'border-red-400'
-                      : 'border-gray-200 focus:border-gray-400'
-                  }
-                `}
-              />
-            </div>
-
-            {email && !isEmailValid && (
-              <p className="text-xs text-red-500 mt-1">
-                Introduce un email válido
-              </p>
-            )}
-          </div>
+          <Input
+            label="Email"
+            placeholder="tu@email.com"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            icon={<Mail className="h-4 w-4" />}
+          />
 
           {/* PASSWORD */}
-          <div>
-            <label className="text-xs font-medium text-gray-600">
-              Contraseña
-            </label>
-
-            <div className="relative mt-1">
-              <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-
-              <input
-                type={showPassword ? 'text' : 'password'}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                placeholder="••••••••"
-                className={`w-full pl-10 pr-10 py-3 rounded-3xl border text-sm outline-none transition
-                  ${
-                    password && !isPasswordValid
-                      ? 'border-red-400'
-                      : 'border-gray-200 focus:border-gray-400'
-                  }
-                `}
-              />
-
-              <button
-                type="button"
-                onClick={() => setShowPassword((prev) => !prev)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
-              >
-                {showPassword ? (
-                  <EyeOff className="w-4 h-4" />
-                ) : (
-                  <Eye className="w-4 h-4" />
-                )}
-              </button>
-            </div>
-
-            {password && !isPasswordValid && (
-              <p className="text-xs text-red-500 mt-1">Mínimo 8 caracteres</p>
-            )}
-          </div>
+          <Input
+            type="password"
+            label="Contraseña"
+            placeholder="••••••••"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            icon={<Lock className="h-4 w-4" />}
+          />
 
           {/* BUTTON */}
-          <button
+          <Button
             type="submit"
+            className="mt-4"
             disabled={!isFormValid || isLoading}
-            className="w-full mt-6 flex items-center justify-center gap-2 py-3 rounded-3xl text-sm font-medium transition
-              bg-black text-white
-              hover:bg-gray-900
-              disabled:opacity-40 disabled:cursor-not-allowed"
           >
-            {isLoading ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                Iniciando sesión
-              </>
-            ) : (
-              'Continuar'
-            )}
-          </button>
+            Continuar
+          </Button>
         </form>
 
         {/* FOOTER */}
