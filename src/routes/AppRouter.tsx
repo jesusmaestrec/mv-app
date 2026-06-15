@@ -1,49 +1,38 @@
-import { useEffect, type ReactNode } from 'react'
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
-import { CalendarEventDetail, Dashboard, Login, ProfilePage } from '@/pages'
-import { useAuth } from '@/hooks'
+import { useEffect } from 'react'
+import { BrowserRouter } from 'react-router-dom'
+import { RouteConfig } from './RouteConfig'
+
 import { useAuthStore, useProfileStore } from '@/store'
 import { getCurrentUser, onAuthStateChange } from '@/services'
-import { App } from '@/App'
 
-function PrivateRoute({ children }: { children: ReactNode }) {
-  const { user, loading } = useAuth()
-
-  if (loading) {
-    return null
-  }
-
-  return user ? children : <Navigate to="/login" replace />
-}
-
-function PublicRoute({ children }: { children: ReactNode }) {
-  const { user, loading } = useAuth()
-
-  if (loading) {
-    return null
-  }
-
-  return user ? <Navigate to="/dashboard" replace /> : children
-}
-
-export const AppRouter = () => {
+export function AppRouter() {
   useEffect(() => {
-    let cleanup: (() => void) | undefined
+    let unsubscribe: (() => void) | undefined
     let profileLoaded = false
 
     void (async () => {
       const currentUser = await getCurrentUser()
-      useAuthStore.setState({ user: currentUser, loading: false })
+
+      useAuthStore.setState({
+        user: currentUser,
+        loading: false
+      })
 
       if (currentUser?.id) {
         useProfileStore.getState().getProfile(currentUser.id)
         profileLoaded = true
       } else {
-        useProfileStore.setState({ profile: null, loading: false })
+        useProfileStore.setState({
+          profile: null,
+          loading: false
+        })
       }
 
       const { data } = onAuthStateChange((user) => {
-        useAuthStore.setState({ user, loading: false })
+        useAuthStore.setState({
+          user,
+          loading: false
+        })
 
         if (user?.id) {
           if (!profileLoaded) {
@@ -51,61 +40,23 @@ export const AppRouter = () => {
             profileLoaded = true
           }
         } else {
-          useProfileStore.setState({ profile: null, loading: false })
+          useProfileStore.setState({
+            profile: null,
+            loading: false
+          })
           profileLoaded = false
         }
       })
 
-      cleanup = () => data.subscription.unsubscribe()
+      unsubscribe = () => data.subscription.unsubscribe()
     })()
 
-    return () => cleanup?.()
+    return () => unsubscribe?.()
   }, [])
 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route
-          path="/login"
-          element={
-            <PublicRoute>
-              <Login />
-            </PublicRoute>
-          }
-        />
-        <Route path="/" element={<App />}>
-          <Route
-            path="dashboard"
-            element={
-              <PrivateRoute>
-                <Dashboard />
-              </PrivateRoute>
-            }
-          />
-        </Route>
-        <Route path="/" element={<App />}>
-          <Route
-            path="events/:id"
-            element={
-              <PrivateRoute>
-                <CalendarEventDetail />
-              </PrivateRoute>
-            }
-          />
-        </Route>
-        <Route path="/" element={<App />}>
-          <Route
-            path="profile"
-            element={
-              <PrivateRoute>
-                <ProfilePage />
-              </PrivateRoute>
-            }
-          />
-        </Route>
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+      <RouteConfig />
     </BrowserRouter>
   )
 }
