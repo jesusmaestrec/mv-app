@@ -1,7 +1,14 @@
 import { useMemo, useState } from 'react'
 import { MapPin } from 'lucide-react'
 
-import { Card, Input, Select, Button, DateTimePicker } from '@/components'
+import {
+  Card,
+  Input,
+  Select,
+  Button,
+  DateTimePicker,
+  Textarea
+} from '@/components'
 import { useCreateCalendarEvent } from '@/hooks'
 import type { CalendarEventType, NewCalendarEvent } from '@/interfaces'
 import { calendarEventLabel, rehearsalTypes } from '@/constants'
@@ -139,22 +146,12 @@ export const CreateEventPage = () => {
           )}
 
           {/* DESCRIPTION */}
-          <div className="space-y-1">
-            <label className="text-sm text-gray-600">Descripción</label>
-
-            <div className="rounded-xl border border-gray-100 bg-gray-50 px-3 py-2 focus-within:bg-white transition">
-              <textarea
-                value={newEvent.description ?? ''}
-                onChange={(e) =>
-                  updateNewEvent({
-                    description: e.target.value
-                  })
-                }
-                className="w-full bg-transparent text-sm outline-none resize-none min-h-[90px]"
-                placeholder="Detalles del evento..."
-              />
-            </div>
-          </div>
+          <Textarea
+            label="Descripción"
+            placeholder="Detalles del evento..."
+            value={newEvent.description ?? ''}
+            onChange={(e) => updateNewEvent({ description: e.target.value })}
+          />
 
           {/* LOCATION */}
           <Input

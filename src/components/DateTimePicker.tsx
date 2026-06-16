@@ -1,5 +1,6 @@
 import { useMemo, useState, useEffect } from 'react'
 import { Calendar as CalendarIcon, Clock } from 'lucide-react'
+import { motion } from 'framer-motion'
 
 import { BottomSheet } from './BottomSheet'
 import { Button } from './Button'
@@ -20,11 +21,20 @@ const parseDate = (value?: Date | string | null) => {
   return isNaN(d.getTime()) ? null : d
 }
 
+// ---------- HAPTIC ----------
+const haptic = (pattern: number | number[] = 10) => {
+  if (typeof navigator !== 'undefined' && 'vibrate' in navigator) {
+    navigator.vibrate(pattern)
+  }
+}
+
 export const DateTimePicker = ({ value, onChange }: Props) => {
   const [open, setOpen] = useState(false)
 
   const [selectedDate, setSelectedDate] = useState<Date | null>(null)
-  const [selectedTime, setSelectedTime] = useState<string>(DEFAULT_TIME)
+  const [selectedTime, setSelectedTime] = useState(DEFAULT_TIME)
+
+  const [dirty, setDirty] = useState(false)
 
   useEffect(() => {
     const parsed = parseDate(value)
@@ -36,9 +46,9 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
     } else {
       setSelectedTime(DEFAULT_TIME)
     }
-  }, [value])
 
-  const openPicker = () => setOpen(true)
+    setDirty(false)
+  }, [value])
 
   const minDate = useMemo(() => {
     const d = new Date()
@@ -58,7 +68,11 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
 
   const quickSlots = ['18:00', '20:30', '21:00']
 
+  // ---------- DATE ----------
   const handleDate = (date: Date) => {
+    setDirty(true)
+    haptic(8)
+
     const next = new Date(date)
     const [h, m] = selectedTime.split(':').map(Number)
 
@@ -68,12 +82,16 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
     setSelectedDate(next)
   }
 
+  // ---------- TIME ----------
   const handleTime = (time: string) => {
+    setDirty(true)
+    haptic(12)
+
     setSelectedTime(time)
 
     const base = selectedDate ?? new Date()
-
     const next = new Date(base)
+
     const [h, m] = time.split(':').map(Number)
 
     next.setHours(h)
@@ -82,10 +100,21 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
     setSelectedDate(next)
   }
 
-  const confirm = () => {
+  // ---------- COMMIT ----------
+  const commit = () => {
     if (!selectedDate) return
     onChange(selectedDate)
+    haptic([10, 20, 10]) // confirm pattern
+  }
+
+  // ---------- CLOSE (swipe / backdrop) ----------
+  const handleClose = () => {
+    if (dirty && selectedDate) {
+      commit()
+    }
+
     setOpen(false)
+    setDirty(false)
   }
 
   const displayValue = selectedDate
@@ -104,8 +133,10 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
       <div className="space-y-1">
         <label className="text-sm text-gray-600">Fecha y hora</label>
 
-        <div
-          onClick={openPicker}
+        <motion.div
+          whileTap={{ scale: 0.98 }}
+          transition={{ type: 'spring', stiffness: 500, damping: 30 }}
+          onClick={() => setOpen(true)}
           className="
             relative flex items-center gap-2
             rounded-xl border border-gray-100
@@ -128,13 +159,13 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
           </div>
 
           <Clock className="h-4 w-4 text-gray-400" />
-        </div>
+        </motion.div>
       </div>
 
       {/* SHEET */}
       <BottomSheet
         isOpen={open}
-        onClose={() => setOpen(false)}
+        onClose={handleClose}
         title="Selecciona fecha y hora"
       >
         <div className="pt-2 space-y-5">
@@ -153,6 +184,7 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
                 <Button
                   key={time}
                   onClick={() => handleTime(time)}
+                  className="active:scale-[0.97] transition"
                   variant={selectedTime === time ? 'primary' : 'secondary'}
                 >
                   {time}
@@ -170,6 +202,7 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
                 <Button
                   key={time}
                   onClick={() => handleTime(time)}
+                  className="active:scale-[0.97] transition"
                   variant={selectedTime === time ? 'primary' : 'secondary'}
                 >
                   {time}
@@ -177,11 +210,6 @@ export const DateTimePicker = ({ value, onChange }: Props) => {
               ))}
             </div>
           </Card>
-
-          {/* CONFIRM */}
-          <Button type="button" onClick={confirm} disabled={!selectedDate}>
-            Confirmar
-          </Button>
         </div>
       </BottomSheet>
     </>
