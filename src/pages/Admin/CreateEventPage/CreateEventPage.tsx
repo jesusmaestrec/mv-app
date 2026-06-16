@@ -88,7 +88,7 @@ export const CreateEventPage = () => {
   }
 
   return (
-    <div className="h-full bg-white p-4">
+    <div className="h-full bg-white">
       {/* HEADER */}
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-gray-900">Nuevo evento</h1>
