@@ -7,9 +7,8 @@ import { Button, Input } from '@/components'
 export const Login = () => {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
 
-  const { login } = useAuth()
+  const { login, isLogging } = useAuth()
   const { showNotification } = useNotification()
   const navigate = useNavigate()
 
@@ -23,21 +22,16 @@ export const Login = () => {
 
   const handleSubmit = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault()
-    if (!isFormValid || isLoading) return
 
-    setIsLoading(true)
+    if (!isFormValid) return
 
-    try {
-      await login(email, password)
-      navigate('/dashboard')
-    } catch (error) {
-      showNotification(
-        'error',
-        error instanceof Error ? error.message : 'Error al iniciar sesión'
-      )
-    } finally {
-      setIsLoading(false)
-    }
+    await login(email, password)
+      .then(() => {
+        navigate('/dashboard')
+      })
+      .catch(() => {
+        showNotification('error', 'Error al iniciar sesión')
+      })
   }
 
   return (
@@ -87,7 +81,8 @@ export const Login = () => {
           <Button
             type="submit"
             className="mt-4"
-            disabled={!isFormValid || isLoading}
+            disabled={!isFormValid || isLogging}
+            loading={isLogging}
           >
             Continuar
           </Button>

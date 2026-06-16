@@ -180,7 +180,11 @@ export const CreateEventPage = () => {
           />
 
           {/* SUBMIT */}
-          <Button type="submit" loading={loading} disabled={!isValid}>
+          <Button
+            type="submit"
+            loading={loading}
+            disabled={!isValid || loading}
+          >
             Crear evento
           </Button>
         </Card>
