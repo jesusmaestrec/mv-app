@@ -43,7 +43,7 @@ export async function getEventApplicants(
   eventId: string
 ): Promise<EventApplicant[]> {
   const { data, error } = await supabase.rpc('get_event_applicants', {
-    event_id: eventId
+    p_event_id: eventId
   })
 
   if (error) throw error

@@ -21,18 +21,20 @@ export const CalendarEventDetail = () => {
     if (id && user) void initCalendarEventDetail(id, user.id)
   }, [id, user, initCalendarEventDetail])
 
-  if (!calendarEvent) {
-    return <EmptyView />
-  }
-
   return (
-    <Loading isLoading={loading}>
-      <div className="bg-white px-4 py-6 space-y-6">
-        <EventHeader />
-        <EventDescription />
-        <AttendancePanel />
-        <EventApplicants />
-      </div>
-    </Loading>
+    <div className="h-full">
+      <Loading isLoading={loading}>
+        {!calendarEvent ? (
+          <EmptyView />
+        ) : (
+          <div className="bg-white px-4 py-6 space-y-6">
+            <EventHeader />
+            <EventDescription />
+            <AttendancePanel />
+            <EventApplicants />
+          </div>
+        )}
+      </Loading>
+    </div>
   )
 }

@@ -5,10 +5,22 @@ import type {
   InstrumentVoice
 } from '@/interfaces'
 
-export async function getCalendarEventList(
+export async function getRehearsalsThisWeek(
+  voice: InstrumentVoice
+): Promise<CalendarEvent[]> {
+  const { data, error } = await supabase.rpc('get_rehearsals_this_week', {
+    v: voice
+  })
+
+  if (error || !data) throw new Error()
+
+  return data
+}
+
+export async function getActivities(
   voice: InstrumentVoice
 ): Promise<CalendarEvent[] | null> {
-  const { data, error } = await supabase.rpc('get_events_this_week', {
+  const { data, error } = await supabase.rpc('get_activities', {
     v: voice
   })
 

@@ -1,7 +1,8 @@
 export { signIn, signOut, getCurrentUser, onAuthStateChange } from './auth'
 export { getProfile } from './profile'
 export {
-  getCalendarEventList,
+  getRehearsalsThisWeek,
+  getActivities,
   getCalendarEvent,
   createCalendarEvent
 } from './calendarEvent'

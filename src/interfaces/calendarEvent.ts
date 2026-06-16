@@ -24,8 +24,14 @@ export type NewCalendarEvent = Omit<
   eventType: CalendarEventType | ''
 }
 
-export interface UseCalendarEventListReturn {
-  calendarEvents: CalendarEvent[] | null
+export interface UseRehearsalsThisWeekReturn {
+  rehearsalsThisWeek: CalendarEvent[] | null
+  loading: boolean
+  error: string | null
+}
+
+export interface UseActivitiesReturn {
+  activities: CalendarEvent[] | null
   loading: boolean
   error: string | null
 }

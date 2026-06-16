@@ -41,10 +41,6 @@ export const Dashboard = () => {
 
       {/* EVENTOS */}
       <section className="space-y-4">
-        <h2 className="text-xs font-medium uppercase tracking-[0.2em] text-gray-400">
-          Eventos
-        </h2>
-
         <EventItemList />
       </section>
     </div>
