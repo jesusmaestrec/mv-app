@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
-import { User, X, LogOut, CalendarPlus, BarChart3 } from 'lucide-react'
-import { useAuth } from '@/hooks'
+import { User, X, LogOut, CalendarPlus, BarChart3, Home } from 'lucide-react'
+import { useAuth, useProfile } from '@/hooks'
 import { BottomSheet } from '@/components'
 
 type Props = {
@@ -70,6 +70,9 @@ const Item = ({
 export const AppMenu = ({ isOpen, onClose }: Props) => {
   const { logout } = useAuth()
   const navigate = useNavigate()
+  const { profile } = useProfile()
+
+  const isAdmin = profile?.role === 'admin'
 
   const go = (path?: string) => {
     if (!path) return
@@ -77,13 +80,22 @@ export const AppMenu = ({ isOpen, onClose }: Props) => {
     onClose()
   }
 
-  const items: MenuItem[] = [
+  const baseItems: MenuItem[] = [
+    {
+      label: 'Inicio',
+      description: 'Pantalla principal',
+      icon: Home,
+      path: '/'
+    },
     {
       label: 'Perfil',
       description: 'Ver tu cuenta',
       icon: User,
       path: '/profile'
-    },
+    }
+  ]
+
+  const adminItems: MenuItem[] = [
     {
       label: 'Estadísticas',
       description: 'Métricas de eventos',
@@ -95,7 +107,12 @@ export const AppMenu = ({ isOpen, onClose }: Props) => {
       description: 'Nuevo evento en el sistema',
       icon: CalendarPlus,
       path: '/admin/events/new'
-    },
+    }
+  ]
+
+  const items: MenuItem[] = [
+    ...baseItems,
+    ...(isAdmin ? adminItems : []),
     {
       label: 'Cerrar sesión',
       description: 'Salir de la cuenta',
@@ -111,7 +128,6 @@ export const AppMenu = ({ isOpen, onClose }: Props) => {
   return (
     <BottomSheet isOpen={isOpen} onClose={onClose} title="Menú">
       <div className="flex flex-col gap-1 relative">
-        {/* CLOSE */}
         <button
           onClick={onClose}
           className="absolute right-2 -top-10 text-slate-400 hover:text-slate-600 transition"
