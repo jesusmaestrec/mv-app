@@ -9,13 +9,22 @@ export const useAuthStore = create<AuthState>((set) => ({
   setLoading: (loading) => set({ loading }),
   login: async (email, password) => {
     set({ isLogging: true })
-    const authenticatedUser = await signIn(email, password)
-    set({
-      user: authenticatedUser
-        ? { id: authenticatedUser.id, email: authenticatedUser.email ?? '' }
-        : null,
-      isLogging: false
-    })
+    await signIn(email, password)
+      .then((authenticatedUser) => {
+        set({
+          user: {
+            id: authenticatedUser.id,
+            email: authenticatedUser.email ?? ''
+          },
+          isLogging: false
+        })
+      })
+      .catch(() => {
+        set({
+          isLogging: false
+        })
+        throw new Error()
+      })
   },
   isLogging: false,
   logout: async () => {
